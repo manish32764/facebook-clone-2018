@@ -1,0 +1,257 @@
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(92vw, 400px);
+  height: min(86vh, 720px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* One segment per card in the reel, filling as the timer runs. */
+.progress {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  gap: 3px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: #fff;
+}
+
+.header {
+  position: absolute;
+  top: 18px;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+  color: #fff;
+}
+
+.author:hover { text-decoration: none; }
+
+.authorText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.authorName {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.authorTime {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.viewCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: var(--fs-xs);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* A text-only story is centred type on the chosen background colour. */
+.textCard {
+  padding: var(--sp-8) var(--sp-6);
+  color: #fff;
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+  text-align: center;
+  word-break: break-word;
+}
+
+.caption {
+  position: absolute;
+  bottom: var(--sp-6);
+  left: var(--sp-4);
+  right: var(--sp-4);
+  z-index: 3;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: var(--fs-md);
+  text-align: center;
+}
+
+/* Invisible tap targets, as in the app: left goes back, right goes forward. */
+.tap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 32%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tapLeft { left: 0; }
+.tapRight { right: 0; width: 68%; }
+
+.headerTools {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viewCount { border: 0; cursor: pointer; }
+
+.viewSep {
+  width: 1px;
+  height: 10px;
+  margin: 0 2px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ---- reply bar and quick reactions ---- */
+
+.replyBar {
+  position: absolute;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.replyInput {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+}
+
+.replyInput::placeholder { color: rgba(255, 255, 255, 0.8); }
+.replyInput:focus { outline: none; border-color: #fff; }
+
+.replySend {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fb-blue);
+  color: #fff;
+}
+
+.quick { display: inline-flex; gap: 2px; flex: none; }
+
+.quickItem {
+  padding: 2px;
+  border: 0;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.quickItem:hover { transform: scale(1.3); }
+
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  z-index: 5;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+/* ---- your own story: who saw it ---- */
+
+.viewersPanel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  max-height: 60%;
+  overflow-y: auto;
+  padding: var(--sp-3);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.viewersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+  font-weight: var(--fw-bold);
+}
+
+.viewersClose { border: 0; background: none; color: var(--text-muted); }
+
+.viewersEmpty { font-size: var(--fs-base); color: var(--text-muted); }
+
+.viewerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 0;
+}
+
+.viewerName { flex: 1; font-size: var(--fs-md); font-weight: var(--fw-bold); }
+
+.viewerReactions { font-size: 16px; }

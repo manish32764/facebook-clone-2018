@@ -1,0 +1,119 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--card-gap);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--card-pad) var(--sp-3);
+}
+
+.who { display: flex; flex-direction: column; min-width: 0; }
+
+.sponsor {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--fb-link);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  color: var(--text-meta);
+}
+
+.body {
+  padding: 0 var(--card-pad) var(--sp-3);
+  font-size: var(--fs-md);
+  line-height: var(--lh-loose);
+}
+
+.imageButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--card-pad);
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footerText { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+
+.url { font-size: var(--fs-xs); color: var(--text-muted); letter-spacing: 0.02em; }
+
+.title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cta {
+  flex: none;
+  padding: 7px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-base);
+}
+
+.cta:hover { background: var(--bg-hover); }
+
+/* ---- compact rail variant ---- */
+
+.rail {
+  display: flex;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: var(--sp-2) 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.railImage {
+  width: 90px;
+  height: 60px;
+  flex: none;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.railBody { display: flex; flex-direction: column; min-width: 0; }
+
+.railTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+}
+
+.rail:hover .railTitle { text-decoration: underline; }
+
+.railUrl { font-size: var(--fs-sm); color: var(--text-muted); }

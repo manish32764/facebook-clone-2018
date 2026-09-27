@@ -1,0 +1,25 @@
+.divider {
+  height: 1px;
+  background: var(--bg-divider);
+  border: 0;
+  margin: var(--sp-2) 0;
+}
+
+.flush { margin: 0; }
+
+.labelled {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin: var(--sp-3) 0;
+}
+
+.labelled::before,
+.labelled::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--bg-divider);
+}

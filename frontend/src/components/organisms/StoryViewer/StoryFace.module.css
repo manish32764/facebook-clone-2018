@@ -1,0 +1,61 @@
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.small { position: absolute; inset: 0; }
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.small .image { object-fit: cover; }
+
+.textCard {
+  padding: var(--sp-6);
+  color: #fff;
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  text-align: center;
+  line-height: var(--lh-tight);
+  word-break: break-word;
+}
+
+.small .textCard { padding: var(--sp-2); font-size: var(--fs-sm); }
+
+/* Each layer is centred on its saved point. */
+.layer {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: pre-wrap;
+  text-align: center;
+  line-height: 1.1;
+  pointer-events: none;
+  user-select: none;
+  max-width: 90%;
+}
+
+.text {
+  font-weight: var(--fw-bold);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+.sticker { line-height: 1; }
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  padding: var(--sp-2) var(--sp-4);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  text-align: center;
+  font-size: var(--fs-lg);
+}

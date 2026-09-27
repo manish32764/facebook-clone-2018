@@ -1,0 +1,28 @@
+.tile {
+  display: flex;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.tile:last-child { border-bottom: 0; }
+
+.body { flex: 1; min-width: 0; }
+
+.name {
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+}
+
+.name:hover { text-decoration: underline; }
+
+.time {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin: 2px 0 var(--sp-2);
+}
+
+.actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; }

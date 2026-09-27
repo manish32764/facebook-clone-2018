@@ -1,0 +1,13 @@
+.intro { margin-bottom: var(--card-gap); }
+
+.blurb {
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  line-height: var(--lh-loose);
+}
+
+/* Video reads better in a narrower column than a full-width list. */
+.column {
+  max-width: 700px;
+  margin: 0 auto;
+}

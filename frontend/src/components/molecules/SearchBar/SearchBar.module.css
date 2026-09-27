@@ -1,0 +1,99 @@
+.wrapper { position: relative; min-width: 0; }
+
+.field {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 0 var(--sp-2);
+  height: 28px;
+  min-width: 0;
+  transition: box-shadow var(--dur-fast) var(--ease);
+}
+
+.fieldFocused { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.45); }
+
+.icon { color: var(--text-muted); flex: none; }
+
+.input {
+  border: 0;
+  outline: none;
+  padding: 0 6px;
+  width: 100%;
+  min-width: 0;
+  font-size: var(--fs-md);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.input::placeholder { color: var(--text-placeholder); }
+
+.results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 320px;
+  max-width: 90vw;
+  max-height: 380px;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  z-index: var(--z-dropdown);
+  padding: var(--sp-1) 0;
+}
+
+.resultsHeader {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  color: var(--text-primary);
+  text-decoration: none;
+  min-width: 0;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.result:hover { background: var(--bg-hover); text-decoration: none; }
+
+.resultName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+}
+
+.empty {
+  padding: var(--sp-4) var(--sp-3);
+  color: var(--text-muted);
+  font-size: var(--fs-base);
+  text-align: center;
+}
+
+/* Footer row that leaves the dropdown for the full results page. */
+.seeAll {
+  display: block;
+  width: 100%;
+  padding: 8px var(--sp-3);
+  border: 0;
+  border-top: 1px solid var(--border-card);
+  background: var(--bg-subtle);
+  color: var(--fb-link);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  text-align: left;
+}
+
+.seeAll:hover { background: var(--bg-pressed); }

@@ -1,0 +1,27 @@
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background: #ffebe8;
+  border: 1px solid #dd3c10;
+  border-radius: var(--radius-md);
+  color: #333;
+  font-size: var(--fs-base);
+}
+
+.icon { color: #dd3c10; flex: none; margin-top: 1px; }
+
+.body { flex: 1; }
+
+.retry {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-top: var(--sp-1);
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-base);
+}
+
+.retry:hover { text-decoration: underline; }

@@ -1,0 +1,22 @@
+# dependencies / build output
+node_modules/
+dist/
+target/
+
+# environment
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# setup artefacts
+setup/downloads/*
+!setup/downloads/.gitkeep
+setup/logs/*
+!setup/logs/.gitkeep
+
+# OS
+Thumbs.db
+.DS_Store

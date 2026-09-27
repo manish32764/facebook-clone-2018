@@ -1,0 +1,142 @@
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--layout-gap);
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* The category rail, which becomes a horizontal strip on a narrow screen. */
+.categories {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  padding: var(--sp-2);
+  position: sticky;
+  top: calc(var(--chrome-height) + var(--sp-5));
+}
+
+/* Names the section, the way the real Marketplace rail does. */
+.railTitle {
+  display: block;
+  padding: var(--sp-2) var(--sp-2) var(--sp-1);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.categoryTitle {
+  display: block;
+  padding: var(--sp-2) var(--sp-2) var(--sp-1);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: 7px var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--fs-md);
+  text-align: left;
+}
+
+.category:hover { background: var(--bg-hover); }
+
+.categoryActive {
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue);
+  font-weight: var(--fw-bold);
+}
+
+.main { min-width: 0; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+}
+
+/* Only earns its place once the rail that carries the name is hidden. */
+.titleContext {
+  display: none;
+  order: -1;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--sp-4);
+}
+
+.loading { padding: var(--sp-6); }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+
+  .categories {
+    position: static;
+    display: flex;
+    gap: var(--sp-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .categories::-webkit-scrollbar { display: none; }
+  /* Names the section, the way the real Marketplace rail does. */
+.railTitle {
+  display: block;
+  padding: var(--sp-2) var(--sp-2) var(--sp-1);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.categoryTitle { display: none; }
+  .category { width: auto; white-space: nowrap; }
+}
+
+.filters { margin-bottom: var(--sp-4); }
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--sp-3);
+  align-items: end;
+}
+
+.clearFilters {
+  margin-top: var(--sp-3);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fb-link);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.clearFilters:hover { text-decoration: underline; }

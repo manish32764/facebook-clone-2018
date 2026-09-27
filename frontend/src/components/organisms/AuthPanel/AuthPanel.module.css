@@ -1,0 +1,74 @@
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-raised);
+  padding: var(--sp-4);
+  width: 100%;
+  max-width: 400px;
+}
+
+.fields { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+.nameRow { display: flex; gap: var(--sp-2); }
+
+.submit { margin-top: var(--sp-1); }
+
+.forgot {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  margin-top: var(--sp-3);
+}
+
+.switch {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--sp-2);
+}
+
+.legal {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.demo {
+  margin-top: var(--sp-4);
+  padding: var(--sp-3);
+  background: var(--fb-blue-tint);
+  border: 1px solid rgba(66, 103, 178, 0.22);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-base);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.7;
+}
+
+.demoTitle {
+  display: block;
+  font-weight: var(--fw-bold);
+  color: var(--fb-blue-darker);
+  margin-bottom: 2px;
+}
+
+.demoCreds {
+  display: block;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+}
+
+.demoButton {
+  margin-top: 6px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-base);
+}
+
+.demoButton:hover { text-decoration: underline; }

@@ -1,0 +1,26 @@
+.modeBar {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
+
+.mode:hover { background: var(--bg-hover); }
+
+.modeActive {
+  border-color: var(--fb-blue);
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue);
+}

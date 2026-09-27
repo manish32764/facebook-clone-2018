@@ -1,0 +1,24 @@
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.list > * + * { border-top: 1px solid var(--border-subtle); }
+
+.loading { padding: var(--sp-6); }
+
+.action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fb-link);
+  font-size: var(--fs-base);
+}
+
+.action:hover { text-decoration: underline; }
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--card-gap);
+}

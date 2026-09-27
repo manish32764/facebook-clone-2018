@@ -1,0 +1,7 @@
+.intro { margin-bottom: var(--card-gap); }
+
+.blurb {
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  line-height: var(--lh-loose);
+}

@@ -1,0 +1,53 @@
+.stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.image {
+  max-width: min(88vw, 1100px);
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background: #000;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+}
+
+.nav:hover { background: rgba(0, 0, 0, 0.78); }
+
+.prev { left: calc(-1 * var(--sp-8)); }
+.next { right: calc(-1 * var(--sp-8)); }
+
+.caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: var(--fs-md);
+  text-align: center;
+}
+
+.counter { color: rgba(255, 255, 255, 0.65); font-size: var(--fs-sm); }
+
+/* On a narrow screen the arrows move inside the frame. */
+@media (max-width: 900px) {
+  .prev { left: var(--sp-2); }
+  .next { right: var(--sp-2); }
+}

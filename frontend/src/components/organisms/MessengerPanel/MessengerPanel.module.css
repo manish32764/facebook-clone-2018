@@ -1,0 +1,261 @@
+/*
+ * Two panes in one card: the thread list at a fixed width, the open thread
+ * taking the rest. The height is pinned to the viewport so each pane scrolls on
+ * its own rather than the whole page scrolling.
+ */
+.panel {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: calc(100vh - var(--chrome-height) - var(--sp-10));
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------ thread list --- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-card);
+  min-width: 0;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border-card);
+}
+
+.listTitle {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.listSearch { padding: var(--sp-2) var(--sp-3); }
+
+.listBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--sp-2) var(--sp-2);
+  scrollbar-width: thin;
+}
+
+.listBody::-webkit-scrollbar { width: 8px; }
+.listBody::-webkit-scrollbar-thumb { background: #c9ccd1; border-radius: var(--radius-pill); }
+
+.listEmpty {
+  padding: var(--sp-4);
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ----------------------------------------------------------- open thread --- */
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.threadEmpty {
+  display: grid;
+  place-items: center;
+  flex: 1;
+}
+
+.threadHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border-card);
+  flex: none;
+}
+
+.threadIdentity {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 0;
+  color: inherit;
+}
+
+.threadIdentity:hover { text-decoration: none; }
+
+.threadAvatar {
+  position: relative;
+  flex: none;
+  display: block;
+}
+
+.threadText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.threadName {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.threadSub {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.threadTools {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: none;
+}
+
+.threadTool {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-meta);
+}
+
+.threadTool:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.threadScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scrollbar-width: thin;
+}
+
+.threadScroll::-webkit-scrollbar { width: 9px; }
+.threadScroll::-webkit-scrollbar-thumb { background: #c9ccd1; border-radius: var(--radius-pill); }
+
+.threadBlank {
+  margin: auto;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+
+.dayDivider {
+  padding: var(--sp-3) 0 var(--sp-2);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) 0 var(--sp-1) 30px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.typingDots {
+  display: inline-flex;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-comment);
+}
+
+.typingDots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: bounce 1.2s infinite;
+}
+
+.typingDots i:nth-child(2) { animation-delay: 0.15s; }
+.typingDots i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: none; opacity: 0.45; }
+  30%           { transform: translateY(-3px); opacity: 1; }
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-2);
+  flex: none;
+  padding: var(--sp-3);
+  border-top: 1px solid var(--border-card);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  max-height: 120px;
+  padding: 9px 14px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-bubble);
+  background: var(--bg-input);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  resize: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--fb-blue);
+  background: var(--bg-card);
+}
+
+.sendButton {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fb-blue);
+}
+
+.sendButton:hover { background: var(--fb-blue-tint); }
+.sendButton:disabled { opacity: 0.45; }
+
+.sendPrimary:disabled { opacity: 0.35; }
+
+/* Below the two-pane width, the list stacks above a shorter thread pane. */
+@media (max-width: 860px) {
+  .panel {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .list { border-right: 0; border-bottom: 1px solid var(--border-card); }
+  .listBody { max-height: 260px; }
+  .threadScroll { max-height: 55vh; }
+}

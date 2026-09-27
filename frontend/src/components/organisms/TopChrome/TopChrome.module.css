@@ -1,0 +1,151 @@
+.chrome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--chrome-height);
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--border-chrome);
+  box-shadow: var(--shadow-chrome);
+  z-index: var(--z-chrome);
+}
+
+.inner {
+  max-width: var(--layout-max);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  background: #fff;
+  color: var(--fb-blue);
+  border-radius: var(--radius-md);
+  font-size: 22px;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-serif);
+  line-height: 1;
+  padding-bottom: 2px;
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.logo:hover { background: #f0f2f5; text-decoration: none; }
+
+.search { width: 230px; flex: 0 1 230px; min-width: 90px; }
+
+.spacer { flex: 1 1 auto; min-width: var(--sp-2); }
+
+/* Name + Home sit together as the primary destination group. */
+.primary {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+  white-space: nowrap;
+  min-width: 0;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.identity:hover { background: var(--fb-blue-dark); text-decoration: none; }
+.identity:active { background: var(--fb-blue-darker); }
+
+.identityName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rule {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 0 4px;
+  flex: none;
+}
+
+/* The right-hand icon cluster had its own slightly darker chip treatment. */
+.utility {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+/* Each utility panel anchors to its own button rather than to the whole bar. */
+.panelHost { position: relative; flex: none; }
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 240px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  padding: var(--sp-1) 0;
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  line-height: var(--lh-normal);
+}
+
+.dropdownItem:hover { background: var(--bg-hover); text-decoration: none; }
+.dropdownItem:active { background: var(--bg-pressed); }
+
+.dropdownIdentity { align-items: center; }
+
+.dropdownName { font-weight: var(--fw-bold); display: block; }
+
+.dropdownSub {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--bg-divider);
+  margin: var(--sp-1) 0;
+}
+
+@media (max-width: 760px) {
+  .search { flex: 1 1 auto; width: auto; }
+  .identityName { display: none; }
+}

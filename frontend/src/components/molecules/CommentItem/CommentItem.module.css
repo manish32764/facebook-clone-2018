@@ -1,0 +1,119 @@
+.comment {
+  display: flex;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
+  min-width: 0;
+}
+
+.body {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/*
+ * A real bubble: block-level, generously padded, pill-rounded. The old version
+ * hugged the text so tightly it looked like a selection highlight.
+ */
+.bubble {
+  display: inline-block;
+  background: var(--bg-comment);
+  line-height: var(--lh-normal);
+  border-radius: var(--radius-bubble);
+  padding: 10px var(--sp-4);
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.author {
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+}
+
+.author:hover { text-decoration: underline; }
+
+.content {
+  font-size: var(--fs-md);
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-4) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.footerAction {
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: var(--fs-sm);
+}
+
+.footerAction:hover { text-decoration: underline; }
+
+.dot { color: var(--border-strong); }
+
+/* --- replies and reactions, added with threaded comments --- */
+
+/* Each nested reply is indented by its thread wrapper; the item itself only tightens up. */
+.reply {
+  padding-top: var(--sp-1);
+}
+
+.bubbleRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.likePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: 1px 5px;
+  margin-bottom: 1px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  color: var(--fb-blue);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.liked { color: var(--fb-blue); font-weight: var(--fw-bold); }
+
+.image {
+  margin-top: var(--sp-2);
+  max-width: 240px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+}
+
+.pillEmoji { font-size: 11px; line-height: 1; }
+
+.editBox { display: flex; flex-direction: column; gap: 4px; min-width: 240px; }
+
+.editInput {
+  width: 100%;
+  padding: 8px var(--sp-3);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-bubble);
+  background: var(--bg-card);
+  resize: none;
+  font-size: var(--fs-md);
+}
+
+.editInput:focus { outline: none; box-shadow: var(--focus-ring-tight); }
+
+.editHint { padding-left: var(--sp-3); font-size: var(--fs-sm); color: var(--text-muted); }

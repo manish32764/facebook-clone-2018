@@ -1,0 +1,322 @@
+/*
+ * The dock is a right-aligned row pinned to the bottom of the viewport: chat
+ * windows first, then the thread list. Windows sit on the baseline so a
+ * minimised one collapses to just its title bar without moving the others.
+ */
+.dock {
+  position: fixed;
+  right: var(--sp-3);
+  bottom: 0;
+  z-index: var(--z-dropdown);
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-2);
+  pointer-events: none;
+}
+
+.dock > * { pointer-events: auto; }
+
+/* ------------------------------------------------------------- chat window --- */
+
+.window {
+  display: flex;
+  flex-direction: column;
+  width: 288px;
+  height: 344px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-bottom: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-overlay);
+  overflow: hidden;
+}
+
+.windowMinimized { height: auto; }
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-1) 0 var(--sp-2);
+  background: var(--fb-blue);
+  color: var(--text-on-brand);
+  flex: none;
+}
+
+.headerMain {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+  padding: 7px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.headerAvatar {
+  position: relative;
+  flex: none;
+  display: block;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.15;
+}
+
+.headerTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerSub {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerBadge {
+  flex: none;
+  min-width: 17px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--fb-red);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-align: center;
+}
+
+.headerTools {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex: none;
+}
+
+.headerTool {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-on-brand);
+  opacity: 0.85;
+}
+
+.headerTool:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sp-2) var(--sp-2) var(--sp-1);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar { width: 7px; }
+.scroll::-webkit-scrollbar-thumb { background: #c9ccd1; border-radius: var(--radius-pill); }
+
+.blank {
+  margin: auto;
+  padding: var(--sp-4);
+  text-align: center;
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+
+.dayDivider {
+  padding: var(--sp-2) 0 var(--sp-1);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px var(--sp-2) var(--sp-1) 30px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.typingDots {
+  display: inline-flex;
+  gap: 3px;
+  padding: 5px 7px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-comment);
+}
+
+.typingDots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: bounce 1.2s infinite;
+}
+
+.typingDots i:nth-child(2) { animation-delay: 0.15s; }
+.typingDots i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: none; opacity: 0.45; }
+  30%           { transform: translateY(-3px); opacity: 1; }
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-1);
+  flex: none;
+  padding: var(--sp-2);
+  border-top: 1px solid var(--border-card);
+  background: var(--bg-card);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  max-height: 88px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-bubble);
+  background: var(--bg-input);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  resize: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--fb-blue);
+  background: var(--bg-card);
+}
+
+.sendButton {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fb-blue);
+}
+
+.sendButton:hover { background: var(--fb-blue-tint); }
+.sendButton:disabled { opacity: 0.5; }
+
+/* -------------------------------------------------------------- thread list --- */
+
+.list {
+  width: 210px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-bottom: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+}
+
+.listOpen { box-shadow: var(--shadow-overlay); }
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: 8px var(--sp-3);
+  border: 0;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
+
+.listHeader:hover { background: var(--bg-pressed); }
+
+.listTitle { flex: 1; text-align: left; }
+
+.listBody {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: var(--sp-1);
+  border-top: 1px solid var(--border-card);
+  scrollbar-width: thin;
+}
+
+.listEmpty {
+  padding: var(--sp-3);
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.listRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: 6px var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  text-align: left;
+}
+
+.listRow:hover { background: var(--bg-hover); }
+
+.listRowOpen { background: var(--fb-blue-tint); }
+
+.listAvatar {
+  position: relative;
+  flex: none;
+  display: block;
+}
+
+.listName {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-base);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.listDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fb-blue);
+}
+
+/* A phone shows one window at a time, and the list collapses away. */
+@media (max-width: 720px) {
+  .dock { right: 0; left: 0; justify-content: flex-end; }
+  .window { width: 100vw; }
+  .window ~ .window { display: none; }
+  .list { display: none; }
+}

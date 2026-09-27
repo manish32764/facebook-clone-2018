@@ -1,0 +1,117 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.scoreLine {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-lg);
+  color: var(--text-secondary);
+}
+
+.boardHost {
+  position: relative;
+  max-width: 100%;
+}
+
+.canvas {
+  display: block;
+  max-width: 100%;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.overlayTitle {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.hint { font-size: var(--fs-sm); color: var(--text-muted); }
+
+.pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pad span { display: flex; gap: 4px; }
+
+/* ---- 2048 ---- */
+
+.grid2048 {
+  display: grid;
+  grid-template-columns: repeat(4, 76px);
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  background: #bbada0;
+}
+
+.tile2048 {
+  display: grid;
+  place-items: center;
+  height: 76px;
+  border-radius: var(--radius-md);
+  background: #cdc1b4;
+  color: #776e65;
+  font-size: 26px;
+  font-weight: var(--fw-bold);
+}
+
+.t2 { background: #eee4da; }
+.t4 { background: #ede0c8; }
+.t8 { background: #f2b179; color: #fff; }
+.t16 { background: #f59563; color: #fff; }
+.t32 { background: #f67c5f; color: #fff; }
+.t64 { background: #f65e3b; color: #fff; }
+.t128 { background: #edcf72; color: #fff; font-size: 22px; }
+.t256 { background: #edcc61; color: #fff; font-size: 22px; }
+.t512 { background: #edc850; color: #fff; font-size: 22px; }
+.t1024 { background: #edc53f; color: #fff; font-size: 18px; }
+.t2048 { background: #edc22e; color: #fff; font-size: 18px; }
+
+/* ---- memory ---- */
+
+.memoryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 76px);
+  gap: 8px;
+}
+
+.memoryCard {
+  height: 76px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--fb-blue);
+  font-size: 34px;
+  transition: transform var(--dur-base) var(--ease), background-color var(--dur-base) var(--ease);
+}
+
+.memoryCard:hover { transform: translateY(-2px); }
+
+.memoryShown { background: var(--bg-card); box-shadow: inset 0 0 0 2px var(--fb-blue); }
+
+.memoryMatched { background: var(--bg-success); box-shadow: none; }
+
+@media (max-width: 420px) {
+  .grid2048, .memoryGrid { grid-template-columns: repeat(4, 62px); }
+  .tile2048, .memoryCard { height: 62px; }
+}

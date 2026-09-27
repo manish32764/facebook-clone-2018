@@ -1,0 +1,81 @@
+.tile {
+  position: relative;
+  flex: none;
+  width: 96px;
+  height: 150px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-card);
+  background: var(--bg-hover);
+  cursor: pointer;
+}
+
+.tile:hover .image { transform: scale(1.05); }
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 220ms var(--ease);
+}
+
+.ring {
+  position: absolute;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  border: 3px solid var(--fb-blue);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--sp-4) 6px 6px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: #fff;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- added with real stories: unseen rings, text covers, card counts --- */
+
+.ringUnseen { border-color: var(--fb-blue); }
+
+/* Once every card is watched the ring drops to grey, as it does in the app. */
+.ringSeen { border-color: var(--border-strong); }
+
+.textCover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-3);
+  color: #fff;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-normal);
+  text-align: center;
+  overflow: hidden;
+}
+
+.count {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 18px;
+  padding: 1px 5px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-align: center;
+}

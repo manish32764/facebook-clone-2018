@@ -1,0 +1,133 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--fb-link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+/*
+ * Flex and grid children default to min-width:auto, which makes them refuse to
+ * shrink below their content and overflow the parent. That is what pushed the
+ * composer tabs out of their card and into the contacts rail on the profile
+ * page. Opting every layout child into shrinking is the durable fix.
+ */
+main,
+aside,
+section,
+article {
+  min-width: 0;
+}
+
+/* Keyboard users get a visible ring; mouse users do not. */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-tight);
+  border-radius: var(--radius-md);
+}
+
+::selection {
+  background: rgba(66, 103, 178, 0.25);
+}
+
+/* Thin scrollbars in the rails, matching the era's chrome. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #c9ccd1 transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #c9ccd1;
+  border-radius: var(--radius-pill);
+}
+
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: #b0b3b8;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

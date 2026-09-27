@@ -1,0 +1,55 @@
+.shell {
+  min-height: 100vh;
+  padding-top: calc(var(--chrome-height) + var(--sp-5));
+  padding-bottom: var(--sp-12);
+}
+
+.layout {
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+  display: flex;
+  gap: var(--layout-gap);
+  align-items: flex-start;
+}
+
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: var(--feed-width);
+  margin: 0 auto;
+}
+
+/* Friends and other list pages keep the rails but use the whole middle column. */
+.wide {
+  max-width: none;
+  margin: 0;
+}
+
+/*
+ * Profile pages get the authentic 2018 geometry instead of the feed's three
+ * columns: an 851px content well, no news-feed rails. Squeezing a profile into
+ * the feed's middle column is what made the composer overflow into the
+ * contacts rail.
+ */
+.profileLayout {
+  max-width: calc(var(--profile-width) + var(--sp-6));
+  margin: 0 auto;
+  padding: 0 var(--sp-3);
+}
+
+.profileMain {
+  width: 100%;
+  min-width: 0;
+}
+
+/*
+ * Full-width pages: Messenger, Watch, Marketplace, Groups. They keep the blue
+ * bar but drop both rails, and stay inside the same maximum width as the feed
+ * so the chrome does not appear to change width between sections.
+ */
+.fullLayout {
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+}

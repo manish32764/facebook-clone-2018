@@ -1,0 +1,1 @@
+export { AdsManagerPage } from './AdsManagerPage';

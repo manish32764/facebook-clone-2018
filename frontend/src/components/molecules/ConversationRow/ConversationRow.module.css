@@ -1,0 +1,75 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  text-align: left;
+  min-width: 0;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.row:hover { background: var(--bg-hover); }
+
+.active { background: var(--fb-blue-tint); }
+.active:hover { background: var(--fb-blue-tint); }
+
+.avatarWrap {
+  position: relative;
+  flex: none;
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-md);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time {
+  flex: none;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.preview {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* An unread row goes bold and gets a blue dot, exactly as in Messenger. */
+.unread .title { font-weight: var(--fw-bold); }
+.unread .preview { color: var(--text-primary); font-weight: var(--fw-bold); }
+
+.badge {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fb-blue);
+}

@@ -1,0 +1,1 @@
+export { PokesPage } from './PokesPage';

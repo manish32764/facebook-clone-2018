@@ -1,0 +1,70 @@
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--card-pad) var(--sp-3);
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.replies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.replyCount {
+  margin-left: var(--sp-8);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.showMore {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fb-link);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
+
+.showMore:hover { text-decoration: underline; }
+
+/* Each level of replies indents under its parent, with a faint thread line. */
+.replies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-left: 18px;
+  padding-left: 14px;
+  border-left: 2px solid var(--border-subtle);
+}
+
+/* Past the deepest indent, replies stack flat inside the last level. */
+.repliesFlat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.replyToggle {
+  align-self: flex-start;
+  margin-left: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fb-link);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.replyToggle:hover { text-decoration: underline; }

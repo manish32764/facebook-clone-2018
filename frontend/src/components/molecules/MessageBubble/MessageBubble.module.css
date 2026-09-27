@@ -1,0 +1,176 @@
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+
+.mine { justify-content: flex-end; }
+
+.theirs { justify-content: flex-start; }
+
+/* Reserved even when the avatar is hidden, so grouped bubbles stay aligned. */
+.avatarSlot {
+  width: 24px;
+  flex: none;
+  display: flex;
+  justify-content: center;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 76%;
+  min-width: 0;
+}
+
+.mine .stack { align-items: flex-end; }
+
+.sender {
+  padding-left: var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.bubbleRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mine .bubbleRow { flex-direction: row-reverse; }
+
+.bubble {
+  position: relative;
+  padding: 7px 11px;
+  border-radius: var(--radius-bubble);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  word-break: break-word;
+  white-space: pre-wrap;
+  min-width: 0;
+}
+
+.bubbleTheirs {
+  background: var(--bg-comment);
+  color: var(--text-primary);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+.bubbleMine {
+  background: var(--fb-blue);
+  color: var(--text-on-brand);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.removed { background: transparent; border: 1px solid var(--border-card); color: var(--text-muted); }
+.mine .removed { color: var(--text-muted); }
+
+.sticker { background: transparent; padding: 0; }
+
+.stickerGlyph { font-size: 44px; line-height: 1; display: block; }
+
+.text { display: block; }
+
+.attachment {
+  display: block;
+  max-width: 220px;
+  border-radius: var(--radius-lg);
+  cursor: zoom-in;
+}
+
+.attachment + .text { margin-top: 6px; }
+
+/* Reactions hang off the bottom edge of the bubble, as they do in Messenger. */
+.reactions {
+  position: absolute;
+  bottom: -11px;
+  right: 6px;
+  display: flex;
+  gap: 1px;
+  padding: 1px 4px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.reactionCount { margin-left: 1px; color: var(--text-meta); font-size: 10px; }
+
+.reaction { display: inline-flex; align-items: center; }
+
+/* Hover tools stay out of the way until the row is pointed at. */
+.tools {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.row:hover .tools { opacity: 1; }
+.tools:focus-within { opacity: 1; }
+
+.tool {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.tool:hover { background: var(--bg-pressed); color: var(--text-secondary); }
+
+.picker {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-dropdown);
+  display: flex;
+  gap: 1px;
+  padding: 4px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-overlay);
+}
+
+.pickerItem {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 17px;
+  line-height: 1;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.pickerItem:hover { transform: scale(1.25); }
+
+.pickerItemActive { background: var(--fb-blue-tint); }
+
+.clock {
+  font-size: 10px;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.row:hover .clock { opacity: 1; }
+
+.system {
+  text-align: center;
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}

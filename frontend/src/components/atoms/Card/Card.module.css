@@ -1,0 +1,40 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+  /* Contain children so nothing can spill into a neighbouring column. */
+  overflow: hidden;
+}
+
+.padded { padding: var(--sp-3); }
+.flush  { padding: 0; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-secondary);
+  line-height: 1.1;
+}
+
+.headerTitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.body { padding: var(--sp-3); }
+
+.footer {
+  padding: var(--sp-2) var(--sp-3);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+}

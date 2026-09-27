@@ -1,0 +1,115 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: var(--bg-scrim);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-4);
+  overflow-y: auto;
+}
+
+.dialog {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  animation: rise var(--dur-base) var(--ease);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sm   { max-width: 420px; }
+.md   { max-width: 560px; }
+.lg   { max-width: 760px; }
+.full { max-width: 1000px; }
+
+/* The 2018 dialogs put the title in a blue strip, not a white one. */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: 10px var(--sp-4);
+  background: var(--fb-blue);
+  color: var(--text-on-brand);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.title {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-on-brand);
+  opacity: 0.85;
+}
+
+.close:hover { opacity: 1; background: rgba(255, 255, 255, 0.18); }
+
+.body {
+  padding: var(--sp-4);
+  min-width: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-card);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Bare mode: photo and story viewers, where the media is the whole dialog. */
+.bare {
+  background: transparent;
+  box-shadow: none;
+  max-width: none;
+  width: auto;
+  align-items: center;
+}
+
+.bareBody { min-width: 0; }
+
+.bareClose {
+  position: fixed;
+  top: var(--sp-4);
+  right: var(--sp-5);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+}
+
+.bareClose:hover { background: rgba(0, 0, 0, 0.75); }
+
+@media (max-width: 600px) {
+  .scrim { padding: var(--sp-3); }
+}

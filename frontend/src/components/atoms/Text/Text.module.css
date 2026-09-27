@@ -1,0 +1,30 @@
+.text { margin: 0; }
+
+.xs   { font-size: var(--fs-xs); }
+.sm   { font-size: var(--fs-sm); }
+.base { font-size: var(--fs-base); }
+.md   { font-size: var(--fs-md); }
+.lg   { font-size: var(--fs-lg); }
+.xl   { font-size: var(--fs-xl); }
+.xxl  { font-size: var(--fs-2xl); }
+
+.primary   { color: var(--text-primary); }
+.secondary { color: var(--text-secondary); }
+.muted     { color: var(--text-muted); }
+.meta      { color: var(--text-meta); }
+.link      { color: var(--fb-link); }
+.onBrand   { color: var(--text-on-brand); }
+.danger    { color: var(--fb-red); }
+
+.normal { font-weight: var(--fw-normal); }
+.medium { font-weight: var(--fw-medium); }
+.bold   { font-weight: var(--fw-bold); }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Preserves the line breaks a user typed into the composer. */
+.preserveBreaks { white-space: pre-wrap; word-break: break-word; }

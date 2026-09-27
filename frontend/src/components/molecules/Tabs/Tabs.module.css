@@ -1,0 +1,55 @@
+.tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  padding: 0 var(--sp-2);
+  margin-bottom: -1px;
+}
+
+.plain { border-bottom: 1px solid var(--border-card); }
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px var(--sp-3) 10px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.tab:hover { color: var(--text-primary); }
+
+.active {
+  color: var(--fb-blue);
+  border-bottom-color: var(--fb-blue);
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-pressed);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+}
+
+.active .count { background: var(--fb-blue-tint); color: var(--fb-blue); }

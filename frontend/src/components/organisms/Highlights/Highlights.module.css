@@ -1,0 +1,101 @@
+.row {
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  padding-bottom: var(--sp-1);
+}
+
+.itemHost { position: relative; flex: none; }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 72px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.circle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--fb-blue);
+  overflow: hidden;
+  background: var(--bg-hover);
+}
+
+.newCircle {
+  border: 2px dashed var(--border-strong);
+  color: var(--text-meta);
+}
+
+.label {
+  width: 100%;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  display: none;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text-primary);
+  color: #fff;
+}
+
+.itemHost:hover .remove { display: grid; }
+
+.hint {
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+
+.archive {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--sp-2);
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.archiveItem {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-hover);
+}
+
+.archiveItemOn { border-color: var(--fb-blue); }
+
+.tick {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--fb-blue);
+  color: #fff;
+}

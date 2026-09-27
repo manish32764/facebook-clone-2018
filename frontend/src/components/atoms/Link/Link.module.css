@@ -1,0 +1,15 @@
+.link {
+  color: var(--fb-link);
+  font-size: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover { text-decoration: underline; }
+
+.bold { font-weight: var(--fw-bold); }
+
+.subtle { color: var(--text-meta); }
+.subtle:hover { color: var(--text-secondary); }
+
+.onBrand { color: var(--text-on-brand); }

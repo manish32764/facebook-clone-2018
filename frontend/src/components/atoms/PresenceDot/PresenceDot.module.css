@@ -1,0 +1,17 @@
+.dot {
+  display: block;
+  border-radius: 50%;
+  background: var(--fb-online);
+  flex: none;
+  box-shadow: 0 0 0 1.5px var(--bg-card);
+}
+
+.sm { width: 7px; height: 7px; }
+.md { width: 10px; height: 10px; }
+
+/* Anchored to an avatar, so the parent needs position: relative. */
+.corner {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+}

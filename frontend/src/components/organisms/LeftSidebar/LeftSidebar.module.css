@@ -1,0 +1,56 @@
+/*
+ * The rail never scrolls on its own. A nested scrollbar beside the page
+ * scrollbar was the ugliest thing on the screen, and the shortcut list is
+ * short enough to fit a laptop viewport. Anything that does not fit is
+ * clipped rather than given a second scrollbar.
+ */
+.sidebar {
+  width: var(--sidebar-left);
+  flex: none;
+  position: sticky;
+  top: calc(var(--chrome-height) + var(--sp-5));
+  max-height: calc(100vh - var(--chrome-height) - var(--sp-8));
+  overflow: hidden;
+  padding-bottom: var(--sp-4);
+  min-width: 0;
+}
+
+.group { margin-bottom: var(--sp-5); }
+
+.groupTitle {
+  display: block;
+  padding: 0 var(--sp-3) var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.footer {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.footer a { color: var(--text-muted); }
+.footer a:hover { color: var(--text-meta); }
+
+.copyright { display: block; margin-top: var(--sp-1); }
+
+@media (max-width: 1000px) {
+  .sidebar { display: none; }
+}
+
+/*
+ * Because the rail cannot scroll, a short viewport would otherwise slice a
+ * block in half. Drop the least important content instead, cheapest first.
+ */
+@media (max-height: 820px) {
+  .footer { display: none; }
+}
+
+@media (max-height: 700px) {
+  .friendsGroup { display: none; }
+}

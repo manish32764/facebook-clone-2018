@@ -1,0 +1,167 @@
+/*
+ * The 2018 profile: an 851px cover, then a 340 + 500 body underneath.
+ * These add up to the cover width, which is what made the page feel anchored.
+ */
+.columns {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  align-items: flex-start;
+}
+
+.aside {
+  width: var(--profile-aside);
+  flex: none;
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--chrome-height) + var(--sp-4));
+}
+
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.card + .card { margin-top: var(--sp-4); }
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  min-width: 0;
+  word-break: break-word;
+}
+
+.infoRow:first-child { padding-top: 0; }
+.infoRow:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.infoIcon { color: var(--text-muted); flex: none; margin-top: 2px; }
+
+.friendGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: var(--sp-2);
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--bg-hover);
+  transition: filter var(--dur-fast) var(--ease);
+  cursor: pointer;
+}
+
+.photo:hover { filter: brightness(0.92); }
+
+@media (max-width: 900px) {
+  .columns { flex-direction: column; }
+  .aside { width: 100%; position: static; }
+}
+
+/* --- added with mutual friends, the lightbox and profile editing --- */
+
+.introAction {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mutualGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+
+.mutualTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--sp-1);
+  border-radius: var(--radius-md);
+  color: inherit;
+  min-width: 0;
+}
+
+.mutualTile:hover { background: var(--bg-hover); text-decoration: none; }
+
+.mutualName {
+  font-size: var(--fs-sm);
+  color: var(--fb-link);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* Photos are buttons so they can open the lightbox, but must read as images. */
+.photoButton {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  line-height: 0;
+  min-width: 0;
+}
+
+.toast {
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-md);
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue-darker);
+  font-weight: var(--fw-bold);
+}
+
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--sp-3);
+}
+
+.album {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: inherit;
+  min-width: 0;
+}
+
+.album:hover { text-decoration: none; }
+.album:hover .albumTitle { text-decoration: underline; }
+
+.albumCover,
+.albumBlank {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background: var(--bg-hover);
+}
+
+.albumBlank { display: grid; place-items: center; color: var(--text-muted); }
+
+.albumTitle {
+  margin-top: 4px;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.albumCount { font-size: var(--fs-sm); color: var(--text-muted); }

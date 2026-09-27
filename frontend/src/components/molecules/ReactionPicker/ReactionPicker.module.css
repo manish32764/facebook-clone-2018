@@ -1,0 +1,108 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 7px var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.button:hover { background: var(--bg-hover); }
+
+.reacted { font-weight: var(--fw-bold); }
+
+.chosenEmoji { font-size: 15px; line-height: 1; }
+
+/* The tray floats above the action row, centred on the Like button. */
+.tray {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: var(--z-dropdown);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 7px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-overlay);
+  animation: pop var(--dur-base) var(--ease);
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(4px) scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+.trayItem {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+}
+
+.trayItem:hover { transform: scale(1.28) translateY(-3px); }
+
+.trayItemActive { background: var(--fb-blue-tint); }
+
+.trayEmoji { font-size: 22px; line-height: 1; }
+
+/* The name appears above the emoji you are pointing at, as it does in the app. */
+.trayLabel {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.trayItem:hover .trayLabel { opacity: 1; }
+
+/* ---- the comment variant: a text link, not a toolbar button ---- */
+
+.commentWrapper {
+  flex: none;
+  display: inline-flex;
+}
+
+.commentWrapper .tray { bottom: calc(100% + 4px); }
+
+.commentButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fb-link);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.commentButton:hover { text-decoration: underline; }

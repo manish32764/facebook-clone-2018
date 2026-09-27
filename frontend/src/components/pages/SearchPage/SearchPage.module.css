@@ -1,0 +1,53 @@
+.intro {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--card-gap);
+}
+
+.heading {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  min-width: 0;
+  word-break: break-word;
+}
+
+.total {
+  flex: none;
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+
+.body { margin-top: var(--card-gap); }
+
+.section { margin-bottom: var(--card-gap); }
+
+.sectionHeading {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.peopleGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+}
+
+.listingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+}

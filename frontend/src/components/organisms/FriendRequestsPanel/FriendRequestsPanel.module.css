@@ -1,0 +1,2 @@
+.panel { margin-bottom: var(--sp-4); }
+.empty { padding: var(--sp-3); color: var(--text-muted); font-size: var(--fs-base); }

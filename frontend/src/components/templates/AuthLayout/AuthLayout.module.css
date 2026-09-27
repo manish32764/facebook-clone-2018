@@ -1,0 +1,114 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--border-chrome);
+  box-shadow: var(--shadow-chrome);
+  padding: var(--sp-3) 0 var(--sp-5);
+}
+
+.bannerInner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+}
+
+.wordmark {
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.body {
+  flex: 1;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-4) var(--sp-10);
+  display: flex;
+  gap: var(--sp-8);
+  align-items: flex-start;
+}
+
+.pitch { flex: 1; min-width: 0; padding-top: var(--sp-4); }
+
+.headline {
+  font-size: 28px;
+  font-weight: var(--fw-normal);
+  line-height: 1.28;
+  color: var(--text-primary);
+  max-width: 460px;
+}
+
+.subhead {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-xl);
+  color: var(--text-secondary);
+  max-width: 460px;
+  line-height: var(--lh-loose);
+}
+
+/* A small feature list keeps the left half from being dead space. */
+.points {
+  margin-top: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  max-width: 420px;
+}
+
+.point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  font-size: var(--fs-lg);
+  color: var(--text-secondary);
+}
+
+.pointIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border-card);
+  color: var(--fb-blue);
+}
+
+.pointTitle {
+  display: block;
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.form { flex: none; width: 400px; }
+
+.footer {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--sp-4);
+  border-top: 1px solid #dcdee3;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.9;
+}
+
+@media (max-width: 880px) {
+  .body { flex-direction: column; align-items: center; padding-top: var(--sp-6); }
+  .form { width: 100%; max-width: 400px; }
+  .pitch { text-align: center; padding-top: 0; }
+  .headline, .subhead { max-width: none; }
+  .points { display: none; }
+}

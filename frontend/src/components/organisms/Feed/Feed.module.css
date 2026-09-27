@@ -1,0 +1,21 @@
+.feed { width: 100%; min-width: 0; }
+
+.endOfFeed {
+  padding: var(--sp-6) var(--sp-4);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+
+.loadMore {
+  display: flex;
+  justify-content: center;
+  padding: var(--sp-2) 0 var(--sp-8);
+}
+
+.emptyCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+}

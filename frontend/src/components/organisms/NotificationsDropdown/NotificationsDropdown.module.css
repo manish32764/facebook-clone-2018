@@ -1,0 +1,85 @@
+/*
+ * Shared by the bell and the Messenger panel: a white sheet hanging under the
+ * blue bar, with a titled header, a scrolling body and one footer link.
+ */
+.panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  z-index: var(--z-dropdown);
+  width: 360px;
+  max-width: calc(100vw - var(--sp-4));
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-overlay);
+  overflow: hidden;
+  animation: drop var(--dur-base) var(--ease);
+}
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-card);
+}
+
+.title {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fb-link);
+  font-size: var(--fs-sm);
+}
+
+.action:hover { text-decoration: underline; }
+
+.body {
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.body::-webkit-scrollbar { width: 8px; }
+.body::-webkit-scrollbar-thumb { background: #c9ccd1; border-radius: var(--radius-pill); }
+
+.footer {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  border: 0;
+  border-top: 1px solid var(--border-card);
+  background: var(--bg-subtle);
+  color: var(--fb-link);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  text-align: center;
+}
+
+.footer:hover { background: var(--bg-pressed); text-decoration: none; }
+
+@media (max-width: 480px) {
+  .panel {
+    position: fixed;
+    top: var(--chrome-height);
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    border-radius: 0;
+  }
+}

@@ -1,0 +1,68 @@
+.wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-base);
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.button {
+  padding: 7px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+.button:hover { background: var(--bg-pressed); }
+
+.link {
+  color: var(--fb-link);
+  padding: 2px 0;
+}
+
+.link:hover { text-decoration: underline; }
+
+.tile {
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 110px;
+  padding: var(--sp-4);
+  border: 2px dashed var(--border-input);
+  border-radius: var(--radius-lg);
+  background: var(--bg-subtle);
+  color: var(--text-meta);
+  text-align: center;
+}
+
+.tile:hover { background: var(--bg-hover); border-color: var(--fb-blue); color: var(--fb-blue); }
+
+/* Focus lands on the hidden input; show it on its label instead. */
+.input:focus-visible + .trigger,
+.wrapper:focus-within .trigger { box-shadow: var(--focus-ring-tight); }
+
+.disabled { opacity: 0.6; cursor: progress; }
+
+.error {
+  font-size: var(--fs-sm);
+  color: var(--fb-red);
+}

@@ -1,0 +1,59 @@
+/*
+ * Tiles are sized so a full rail fits the feed column without scrolling. If a
+ * user ever has more stories than fit, the strip still pans by wheel or
+ * trackpad - it just never paints a scrollbar under the cards.
+ */
+.rail {
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: var(--card-pad);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--card-gap);
+}
+
+.rail::-webkit-scrollbar { display: none; }
+
+.create {
+  flex: none;
+  width: 96px;
+  height: 150px;
+  border: 1px dashed var(--border-input);
+  border-radius: var(--radius-lg);
+  background: var(--bg-hover);
+  color: var(--text-meta);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.create:hover { background: var(--bg-pressed); border-color: var(--border-strong); }
+
+.plusRing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--fb-blue);
+  color: #fff;
+}
+
+/* Shown when no friend has a live story, so the rail is never a lone button. */
+.blank {
+  align-self: center;
+  padding: 0 var(--sp-3);
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+  line-height: var(--lh-normal);
+}

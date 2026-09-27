@@ -1,0 +1,61 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 8px var(--card-pad);
+  min-height: 34px;
+  font-size: var(--fs-base);
+  color: var(--text-meta);
+}
+
+.summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  min-width: 0;
+}
+
+.summary:hover .count { text-decoration: underline; }
+
+/* The faces overlap, newest on top, the way the real stack reads. */
+.faces {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.face {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  box-shadow: 0 0 0 1.5px var(--bg-card);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.face + .face { margin-left: -5px; }
+
+.count { min-width: 0; }
+
+.spacer { flex: 1; }
+
+.link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  white-space: nowrap;
+}
+
+.link:hover { text-decoration: underline; }
+
+.meta { white-space: nowrap; }

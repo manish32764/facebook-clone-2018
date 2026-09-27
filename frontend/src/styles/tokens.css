@@ -1,0 +1,136 @@
+/*
+ * Design tokens lifted from the 2018 Facebook desktop redesign.
+ * Every component reads from these; nothing hard-codes a hex value.
+ */
+:root {
+  /* ---- brand ---- */
+  --fb-blue:            #4267b2;  /* chrome / primary buttons */
+  --fb-blue-dark:       #365899;  /* hover */
+  --fb-blue-darker:     #29487d;  /* pressed */
+  --fb-blue-tint:       #e7f3ff;  /* selected rows, active tool pills */
+  --fb-link:            #385898;  /* body links */
+  --fb-link-hover:      #3b5998;
+  --fb-green:           #42b72a;  /* "Create New Account" */
+  --fb-green-dark:      #36a420;
+  --fb-green-darker:    #2b9217;
+  --fb-red:             #e74c3c;
+  --fb-online:          #42b72a;
+
+  /* ---- surfaces ---- */
+  --bg-page:            #e9ebee;  /* the classic grey canvas */
+  --bg-card:            #ffffff;
+  --bg-hover:           #f5f6f7;
+  --bg-pressed:         #ebedf0;
+  --bg-input:           #f5f6f7;
+  --bg-comment:         #f2f3f5;  /* comment bubbles */
+  --bg-subtle:          #f6f7f9;  /* comment tray, card footers */
+  --bg-rail-hover:      #dfe3ee;  /* the sidebars used a bluer hover */
+  --bg-divider:         #e5e5e5;
+  --bg-chrome:          #4267b2;
+  --bg-scrim:           rgba(0, 0, 0, 0.55);
+
+  /* ---- status tints (pending posts, pills, banners) ---- */
+  --bg-warning:         #fff8e1;
+  --border-warning:     #f5e1a4;
+  --text-warning:       #7a5c00;
+  --bg-success:         #e8f5e4;
+  --text-success:       #2b7a1a;
+  --bg-danger:          #fdecea;
+  --bg-dating:          #f02849;  /* Dating's own pink-red, used sparingly */
+
+  /* ---- borders ---- */
+  --border-card:        #dddfe2;
+  --border-input:       #ccd0d5;
+  --border-strong:      #bec3c9;
+  --border-subtle:      #e9ebee;
+  --border-chrome:      #29487d;
+
+  /* ---- text ---- */
+  --text-primary:       #1d2129;
+  --text-secondary:     #4b4f56;
+  --text-muted:         #90949c;
+  --text-meta:          #616770;
+  --text-on-brand:      #ffffff;
+  --text-placeholder:   #8d949e;
+
+  /* ---- typography ---- */
+  --font-stack: Helvetica, Arial, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;   /* the wordmark */
+
+  --fs-xs:   11px;
+  --fs-sm:   12px;
+  --fs-base: 13px;
+  --fs-md:   14px;   /* post + comment body */
+  --fs-lg:   16px;
+  --fs-xl:   17px;
+  --fs-2xl:  20px;
+  --fs-3xl:  24px;
+  --fs-4xl:  32px;
+
+  --fw-normal:   400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  --lh-tight:  1.2;
+  --lh-normal: 1.34;
+  --lh-loose:  1.46;
+
+  /* ---- spacing (4px base) ---- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* ---- radii ---- */
+  --radius-sm:   2px;
+  --radius-md:   3px;
+  --radius-lg:   6px;
+  --radius-bubble: 18px;  /* comment pills */
+  --radius-pill: 999px;
+
+  /* ---- elevation (2018 was deliberately flat) ---- */
+  --shadow-card:    0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  --shadow-raised:  0 1px 4px rgba(0, 0, 0, 0.12);
+  --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --shadow-chrome:  0 1px 3px rgba(0, 0, 0, 0.18);
+
+  /* ---- focus ---- */
+  --focus-ring: 0 0 0 2px #fff, 0 0 0 4px var(--fb-blue);
+  --focus-ring-tight: 0 0 0 2px rgba(66, 103, 178, 0.45);
+
+  /* ---- motion ---- */
+  --ease: cubic-bezier(0.2, 0, 0.2, 1);
+  --dur-fast: 90ms;
+  --dur-base: 140ms;
+
+  /* ---- layout ---- */
+  --chrome-height:      42px;   /* the blue bar was famously short */
+  --sidebar-left:       220px;
+  --sidebar-right:      268px;
+  --feed-width:         680px;
+  --layout-gap:         28px;
+  --layout-max:         1272px;
+
+  /* Feed cards share one rhythm: the same inset on every edge, the same gap
+     between stacked cards. Changing these two re-spaces the whole News Feed. */
+  --card-pad:           20px;
+  --card-gap:           20px;
+  --card-radius:        6px;
+
+  /* The 2018 profile was its own geometry: an 851px cover, then a
+     340 + 500 two-column body underneath. No news-feed rails. */
+  --profile-width:      851px;
+  --profile-aside:      340px;
+
+  /* ---- z-index scale ---- */
+  --z-chrome:   100;
+  --z-dropdown: 200;
+  --z-modal:    300;
+  --z-toast:    400;
+}

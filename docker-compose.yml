@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fbclone-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-facebookclone}
+      POSTGRES_USER: ${POSTGRES_USER:-fbclone}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fbclone}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fbclone} -d ${POSTGRES_DB:-facebookclone}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [fbclone]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fbclone-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-facebookclone}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-fbclone}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-fbclone}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:-change-me-in-production-facebook-clone-2018-demo-secret-key}
+      APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173,http://localhost}
+      APP_MEDIA_DIR: /data/uploads
+    volumes:
+      - media-data:/data/uploads
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks: [fbclone]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fbclone-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    networks: [fbclone]
+
+volumes:
+  db-data:
+    name: fbclone-db-data
+  media-data:
+    name: fbclone-media-data
+
+networks:
+  fbclone:
+    name: fbclone-network
+    driver: bridge

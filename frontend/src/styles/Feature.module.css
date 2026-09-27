@@ -1,0 +1,399 @@
+/*
+ * Shared layout for the feature pages added later - Pages, Fundraisers, Jobs,
+ * Dating, Gaming, Ads Manager, Pokes and albums. Every value comes from
+ * tokens.css so the 2018 palette still retunes in one place.
+ */
+
+.intro { margin-bottom: var(--card-gap); }
+
+.blurb {
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  line-height: var(--lh-loose);
+}
+
+.section { margin-bottom: var(--card-gap); }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.rowWrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.spacer { flex: 1; }
+
+.muted { color: var(--text-muted); font-size: var(--fs-sm); }
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: var(--fs-base);
+  color: var(--text-meta);
+}
+
+.strong { font-weight: var(--fw-bold); color: var(--text-primary); }
+
+.loading { padding: var(--sp-6); }
+
+/* ---- card grids ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+}
+
+.gridSmall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--sp-3);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  overflow: hidden;
+  color: inherit;
+  transition: box-shadow var(--dur-fast) var(--ease);
+}
+
+.tile:hover { box-shadow: var(--shadow-raised); text-decoration: none; }
+
+.tileImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--bg-hover);
+}
+
+.tileImageSquare {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--bg-hover);
+}
+
+.tileFallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--fb-blue), var(--fb-blue-darker));
+  color: var(--text-on-brand);
+}
+
+.tileBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--sp-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.tileTitle {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tileActions {
+  display: flex;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-3) var(--sp-3);
+}
+
+/* ---- list rows (people, applications, reports) ---- */
+
+.list { display: flex; flex-direction: column; }
+
+.listRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 0;
+  min-width: 0;
+}
+
+.listRow + .listRow { border-top: 1px solid var(--border-subtle); }
+
+.listText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.listName {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--fb-link);
+}
+
+/* ---- cover + identity bar, as on group and event pages ---- */
+
+.cover {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  overflow: hidden;
+}
+
+.coverImage {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.coverFallback {
+  display: block;
+  height: 240px;
+  background: linear-gradient(135deg, var(--fb-blue), var(--fb-blue-darker));
+}
+
+.coverBar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.identity {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.identityText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.bigName {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+}
+
+.pageAvatar {
+  width: 112px;
+  height: 112px;
+  margin-top: -60px;
+  border: 4px solid var(--bg-card);
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-raised);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.body { margin-top: var(--card-gap); }
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--card-gap);
+  align-items: start;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  line-height: var(--lh-normal);
+  word-break: break-word;
+}
+
+.infoRow + .infoRow { border-top: 1px solid var(--border-subtle); }
+
+/* ---- forms inside dialogs ---- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.previewImage {
+  max-height: 200px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  object-fit: cover;
+}
+
+/* ---- small bits ---- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.pillBlue { background: var(--fb-blue-tint); color: var(--fb-blue-darker); }
+.pillGreen { background: var(--bg-success); color: var(--text-success); }
+.pillRed { background: var(--bg-danger); color: var(--fb-red); }
+.pillWarn { background: var(--bg-warning); color: var(--text-warning); }
+
+.progress {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-pressed);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--fb-green);
+  transition: width var(--dur-base) var(--ease);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.statValue { font-size: var(--fs-2xl); font-weight: var(--fw-bold); color: var(--text-primary); }
+.statLabel { font-size: var(--fs-sm); color: var(--text-muted); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--sp-3);
+  margin-bottom: var(--card-gap);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+}
+
+.table th,
+.table td {
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th { color: var(--text-meta); font-weight: var(--fw-bold); background: var(--bg-subtle); }
+
+.tableWrap { overflow-x: auto; }
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--sp-3);
+  align-items: end;
+}
+
+@media (max-width: 760px) {
+  .twoCol { grid-template-columns: minmax(0, 1fr); }
+  .formRow { grid-template-columns: 1fr; }
+  .bigName { font-size: var(--fs-2xl); }
+  .coverImage, .coverFallback { height: 170px; }
+}
+
+.tileLogo {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.spaced { margin-top: var(--sp-3); }
+
+.preWrap { white-space: pre-wrap; }
+
+.notice {
+  margin-top: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-md);
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue-darker);
+  font-weight: var(--fw-bold);
+}
+
+/* A whole row that links somewhere (jobs, applications). */
+.jobRow,
+a.listRow {
+  color: inherit;
+  border-radius: var(--radius-md);
+  padding-inline: var(--sp-2);
+}
+
+.jobRow:hover,
+a.listRow:hover { background: var(--bg-hover); text-decoration: none; }

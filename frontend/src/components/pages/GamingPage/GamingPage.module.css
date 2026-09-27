@@ -1,0 +1,60 @@
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--card-gap);
+}
+
+.gameCard { overflow: hidden; }
+
+.gameArt {
+  display: grid;
+  place-items: center;
+  height: 140px;
+  color: #fff;
+}
+
+.gameArt:hover { text-decoration: none; filter: brightness(1.05); }
+
+.glyph {
+  font-size: 54px;
+  font-weight: var(--fw-bold);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.gameBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+}
+
+.subhead {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rank {
+  width: 20px;
+  flex: none;
+  text-align: center;
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+}
+
+.leaderName { flex: 1; min-width: 0; }
+
+.me { background: var(--fb-blue-tint); border-radius: var(--radius-md); padding-inline: var(--sp-2); }
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--sp-3);
+  font-weight: var(--fw-bold);
+}
+
+.result { margin: 0 0 var(--sp-3); text-align: center; }

@@ -1,0 +1,109 @@
+.wrapper {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-top: 0;
+  box-shadow: var(--shadow-card);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.cover {
+  position: relative;
+  height: 315px;
+  background: linear-gradient(135deg, #4267b2, #29487d);
+  overflow: hidden;
+}
+
+.coverImage { width: 100%; height: 100%; object-fit: cover; }
+
+/* Keeps the name legible over a bright photo. */
+.coverScrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+  pointer-events: none;
+}
+
+/*
+ * The profile picture overhangs the cover and drops into the tab strip, which
+ * is what anchored the 2018 profile header. The tabs are indented to clear it.
+ */
+.avatarSlot {
+  position: absolute;
+  left: var(--sp-6);
+  bottom: var(--sp-2);
+  z-index: 2;
+}
+
+.nameBlock {
+  position: absolute;
+  left: 208px;
+  right: 200px;
+  bottom: var(--sp-4);
+  min-width: 0;
+}
+
+.name {
+  display: block;
+  color: #fff;
+  font-size: var(--fs-4xl);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  word-break: break-word;
+}
+
+.tagline {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-normal);
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  position: absolute;
+  right: var(--sp-4);
+  bottom: var(--sp-4);
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.tabs {
+  display: flex;
+  align-items: stretch;
+  height: 46px;
+  padding-left: 208px;
+  border-top: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.tabsSpacer { flex: 1; }
+
+@media (max-width: 900px) {
+  .cover { height: 240px; }
+  .avatarSlot { left: var(--sp-3); }
+  .nameBlock { left: var(--sp-3); right: var(--sp-3); bottom: var(--sp-3); }
+  .name { font-size: var(--fs-2xl); }
+  .actions { position: static; padding: var(--sp-3); justify-content: flex-start; }
+  .tabs { padding-left: var(--sp-2); }
+}
+
+/* The presence dot sits on the corner of the big profile photo. */
+.presence {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 16px;
+  height: 16px;
+  box-shadow: 0 0 0 3px var(--bg-card);
+}

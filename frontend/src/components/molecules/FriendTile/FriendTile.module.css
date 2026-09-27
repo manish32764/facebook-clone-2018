@@ -1,0 +1,64 @@
+.tile {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  border-radius: var(--radius-lg);
+  min-width: 0;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.tile:hover { background: var(--bg-hover); }
+
+.body { flex: 1; min-width: 0; }
+
+.name {
+  display: block;
+  color: var(--fb-link);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.name:hover { text-decoration: underline; }
+
+.mutual {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Add Friend and Message sit side by side, and wrap on a card layout. */
+.action {
+  flex: none;
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.avatarWrap { position: relative; flex: none; display: block; }
+
+/* Grid variant used on the Friends page and the profile Friends tab. */
+.card {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  background: var(--bg-card);
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+.card:hover {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.card .body { flex: none; width: 100%; }
+.card .name { white-space: normal; }

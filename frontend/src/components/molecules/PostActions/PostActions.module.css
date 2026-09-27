@@ -1,0 +1,41 @@
+.bar {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 2px var(--sp-2);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.action {
+  flex: 1 1 0;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.action:hover { background: var(--bg-hover); color: var(--text-secondary); }
+.action:active { background: var(--bg-pressed); }
+
+.saved { color: var(--fb-blue); }
+
+.actionLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Icons alone once the column is too narrow for four labelled buttons. */
+@media (max-width: 560px) {
+  .actionLabel { display: none; }
+}

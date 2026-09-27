@@ -1,0 +1,44 @@
+.item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-md);
+  color: rgba(255, 255, 255, 0.92);
+  background: transparent;
+  border: 0;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.item:hover {
+  background: var(--fb-blue-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.item:active { background: var(--fb-blue-darker); }
+
+.active {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+/* Utility icons are square chips; text items keep their label padding. */
+.iconOnly {
+  width: 32px;
+  padding: 0;
+}
+
+.label { display: inline; }
+
+@media (max-width: 900px) {
+  .label { display: none; }
+  .item { padding: 0 6px; }
+}

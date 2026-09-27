@@ -1,0 +1,225 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--card-gap);
+  /* Nothing inside a card may escape into a neighbouring column. */
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- tabs --- */
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+
+.tab {
+  flex: 1 1 0;
+  /* Without this the buttons refuse to shrink and overflow the card. */
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-3);
+  border: 0;
+  background: transparent;
+  color: var(--text-meta);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.tab + .tab {
+  border-left: 1px solid var(--border-subtle);
+}
+
+.tab:hover { background: var(--bg-hover); color: var(--text-secondary); }
+.tab:active { background: var(--bg-pressed); }
+
+.tabActive {
+  color: var(--fb-blue);
+  box-shadow: inset 0 -3px 0 var(--fb-blue);
+}
+
+.tabLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The icon alone is enough once the column gets tight. */
+@media (max-width: 620px) {
+  .tabLabel { display: none; }
+}
+
+/* ---------------------------------------------------------------- body --- */
+
+.body {
+  padding: var(--card-pad) var(--card-pad) var(--sp-3);
+}
+
+.row {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.composerField {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.panel {
+  margin-top: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--bg-hover);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.preview {
+  margin-top: var(--sp-3);
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-card);
+}
+
+.previewImage {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  background: var(--bg-hover);
+}
+
+.removeImage {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.removeImage:hover { background: rgba(0, 0, 0, 0.78); }
+
+.error { margin-top: var(--sp-3); }
+
+/* -------------------------------------------------------------- footer --- */
+
+/*
+ * Tools, privacy and Post share one bar. The old two-row version left a band
+ * of dead white space between them.
+ */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  padding: var(--sp-3) var(--card-pad);
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footerSpacer {
+  flex: 1 1 auto;
+  min-width: var(--sp-2);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+}
+
+/* --- added with video, tagging and group posting --- */
+
+.panelLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-secondary);
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 4px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: var(--fs-base);
+}
+
+.tagChip:hover { background: var(--bg-hover); }
+
+.tagChipOn {
+  border-color: var(--fb-blue);
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue);
+  font-weight: var(--fw-bold);
+}
+
+.tagEmpty { font-size: var(--fs-base); color: var(--text-muted); }
+
+.taggedLine {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 var(--card-pad) var(--sp-2);
+  font-size: var(--fs-base);
+  color: var(--text-meta);
+}
+
+.uploadRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.linkToggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fb-link);
+  font-size: var(--fs-sm);
+}
+
+.linkToggle:hover { text-decoration: underline; }
+
+.notice {
+  margin-top: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-md);
+  background: var(--fb-blue-tint);
+  color: var(--fb-blue-darker);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
