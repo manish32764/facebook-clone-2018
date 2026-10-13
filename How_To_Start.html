@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Facebook Clone Flow Workbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a workbook with two-level tabs. A dark title bar, a coloured strip of main tabs (folder style, the open one joins the sub-tab row), then a white row of sub-tabs. Each section gets the full page width. Each flow is a stack of colour-coded "lanes" (UI → HTTP → Java → DB) that mirror the request path. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --ink: #152033;
+  --muted: #5e6879;
+  --line: #e2e7ee;
+  --accent: #0f766e;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6f4f2;
+  --lane-ui: #0e8a7a;
+  --lane-http: #b45309;
+  --lane-java: #c2410c;
+  --lane-db: #6d45c9;
+  --lane-key: #2f5bd3;
+  --lane-misc: #5e6879;
+  --code-bg: #eef2f6;
+  --ok: #15803d;
+  --warn: #b45309;
+  --info: #2f5bd3;
+  --font-display: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  --band: linear-gradient(120deg, #0b5f59 0%, #0f766e 55%, #11877c 100%);
+  --band-ink: #0f766e;
+  --appbar: #0d1726;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 1px 3px rgba(16, 24, 40, .06);
+  --shadow-lg: 0 4px 16px rgba(16, 24, 40, .08);
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d121a; --surface: #151c27; --surface-2: #19212d; --ink: #e7ebf1; --muted: #9aa4b5; --line: #263041;
+    --accent: #3fc8b5; --accent-ink: #062320; --accent-soft: #12302d;
+    --lane-ui: #3cc4b0; --lane-http: #e9a23b; --lane-java: #f07a45; --lane-db: #a98bf2; --lane-key: #7fa2ff; --lane-misc: #9aa4b5;
+    --code-bg: #1f2836; --ok: #4cc77f; --warn: #e9a23b; --info: #7fa2ff;
+    --band: linear-gradient(120deg, #083f3b 0%, #0b5550 60%, #0e6660 100%); --band-ink: #3fc8b5; --appbar: #080c13;
+    --shadow: 0 1px 2px rgba(0,0,0,.3); --shadow-lg: 0 4px 16px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d121a; --surface: #151c27; --surface-2: #19212d; --ink: #e7ebf1; --muted: #9aa4b5; --line: #263041;
+  --accent: #3fc8b5; --accent-ink: #062320; --accent-soft: #12302d;
+  --lane-ui: #3cc4b0; --lane-http: #e9a23b; --lane-java: #f07a45; --lane-db: #a98bf2; --lane-key: #7fa2ff; --lane-misc: #9aa4b5;
+  --code-bg: #1f2836; --ok: #4cc77f; --warn: #e9a23b; --info: #7fa2ff;
+  --band: linear-gradient(120deg, #083f3b 0%, #0b5550 60%, #0e6660 100%); --band-ink: #3fc8b5; --appbar: #080c13;
+  --shadow: 0 1px 2px rgba(0,0,0,.3); --shadow-lg: 0 4px 16px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1480px; margin: 0 auto; padding-inline: 24px; }
+.content { min-width: 0; padding-block: 24px 64px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; }
+h2 { font-size: 24px; font-weight: 700; }
+h3 { font-size: 17px; font-weight: 600; }
+p { margin: 0; max-width: 80ch; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+
+header.top { display: grid; gap: 12px; margin-bottom: 24px; }
+.eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.path { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 12.5px; }
+.path span.n { padding: 3px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.path .arrow { color: var(--muted); }
+.c-ui { color: var(--lane-ui); } .c-http { color: var(--lane-http); } .c-java { color: var(--lane-java); } .c-db { color: var(--lane-db); }
+.c-key { color: var(--lane-key); } .c-misc { color: var(--lane-misc); }
+
+.save-state { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.save-state .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+.save-state[data-s="saved"] .dot { background: var(--ok); }
+.save-state[data-s="saving"] .dot { background: var(--warn); }
+
+/* Title bar */
+.appbar { background: #262b33; color: #e8ebf0; }
+.appbar .in, .maintabs .in, .subtabs .in { max-width: 1480px; margin: 0 auto; padding-inline: 24px; }
+.appbar .in { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding-block: 12px; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: #fff; }
+.brand small { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: #9aa3b4; margin-left: 10px; }
+.appbar .save-state { color: #b7becb; font-size: 12.5px; }
+
+/* Main tabs: coloured strip, folder-style tabs */
+.navwrap { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; box-shadow: 0 1px 0 var(--line); }
+.maintabs { background: var(--band); }
+.maintabs .in { display: flex; gap: 4px; padding-top: 18px; overflow-x: auto; scrollbar-width: none; }
+.maintabs .in::-webkit-scrollbar, .subtabs .in::-webkit-scrollbar { display: none; }
+.mtab { font: inherit; font-size: 16px; font-weight: 500; color: #fff; background: transparent; border: 0; border-radius: 4px 4px 0 0; padding: 13px 20px 14px; display: flex; gap: 9px; align-items: center; cursor: pointer; white-space: nowrap; }
+.mtab:hover { background: rgba(255,255,255,.12); }
+.mtab svg { width: 22px; height: 22px; flex: none; }
+.mtab[aria-selected="true"] { background: var(--surface); color: var(--band-ink); }
+.mtab:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+
+/* Sub-tabs: white row */
+.subtabs { background: var(--surface); }
+.subtabs .in { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; min-height: 60px; align-items: center; }
+.stab { font: inherit; font-size: 14.5px; color: var(--ink); background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 18px 14px 16px; display: flex; gap: 8px; align-items: center; cursor: pointer; white-space: nowrap; }
+.stab:hover { color: var(--band-ink); }
+.stab[aria-selected="true"] { color: var(--band-ink); border-bottom-color: var(--band-ink); font-weight: 500; }
+.stab .n { font-family: var(--font-mono); font-size: 12px; opacity: .7; }
+.stab svg { width: 16px; height: 16px; flex: none; }
+.btn { font: inherit; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; text-decoration: none; white-space: nowrap; }
+.btn:hover { border-color: var(--accent); }
+button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.pager span:empty { flex: 1; }
+.pill { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--code-bg); color: var(--muted); white-space: nowrap; }
+.pill[data-st="In progress"] { color: var(--warn); }
+.pill[data-st="Submitted"] { color: var(--accent); }
+.pill[data-st="Reviewed"] { color: var(--ok); }
+
+section.panel { display: grid; gap: 22px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 12px; min-width: 0; }
+.lead { font-size: 16.5px; }
+.muted { color: var(--muted); }
+
+ol.steps { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 10px; counter-reset: s; }
+ol.steps li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+ol.steps li.done { opacity: 0.72; }
+ol.steps li.done .t { text-decoration: line-through; text-decoration-color: var(--muted); }
+ol.steps input[type="checkbox"] { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+ol.steps .t { font-weight: 600; }
+ol.steps .d { color: var(--muted); font-size: 14px; }
+
+.toolkit { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.toolkit .card { padding: 16px; gap: 6px; align-content: start; }
+pre { margin: 0; background: var(--code-bg); border-radius: 6px; padding: 10px 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.5; }
+
+.scenario { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.scenario .card { padding: 16px; gap: 6px; align-content: start; }
+
+.lane { display: grid; grid-template-columns: 6px 1fr; gap: 14px; min-width: 0; }
+.lane .bar { border-radius: 3px; background: currentColor; }
+.lane .body { display: grid; gap: 6px; min-width: 0; padding-block: 2px; align-content: start; }
+.lane label { font-weight: 600; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; color: var(--ink); }
+.lane .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+.lane .hint { font-size: 13.5px; color: var(--muted); }
+textarea { width: 100%; min-height: 110px; resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.55; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+textarea:disabled { opacity: 0.7; }
+.lanes { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 24px 28px; }
+.lanes .lane.wide { grid-column: 1 / -1; }
+
+.statusbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+select { font: inherit; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+.example dl { margin: 0; display: grid; gap: 14px; }
+.example dt { font-weight: 600; }
+.example dd { margin: 4px 0 0; font-family: var(--font-mono); font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+
+.bottom-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 22px; align-items: start; }
+.change { border-style: dashed; }
+.change .head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.lock { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--code-bg); color: var(--muted); }
+.lock.open { color: var(--ok); }
+.change ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+
+/* Assignment tickets */
+ol.flowline { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+.tk-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; }
+.ticket { gap: 0; padding: 0; }
+.ticket > summary { list-style: none; cursor: pointer; padding: 18px 56px 18px 20px; display: grid; gap: 8px; position: relative; border-radius: 10px; }
+.ticket > summary::-webkit-details-marker { display: none; }
+.ticket > summary:hover { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+.ticket > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.ticket[open] > summary { border-bottom: 1px solid var(--line); border-radius: 10px 10px 0 0; }
+.t-toggle { position: absolute; right: 18px; top: 20px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
+.t-toggle::before { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .15s; }
+.ticket[open] .t-toggle::before { transform: translateY(2px) rotate(-135deg); }
+.t-body { padding: 18px 20px 20px; display: grid; gap: 16px; min-width: 0; }
+.tk-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
+.tk-actions { display: flex; gap: 8px; }
+.tk-btn { font: inherit; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.tk-btn:hover { border-color: var(--accent); }
+.tk-grid { gap: 12px; }
+.mock-wrap { margin: 0; display: grid; gap: 8px; min-width: 0; }
+.contract { background: var(--code-bg); border-radius: 8px; padding: 12px 14px; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.part { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.part-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.part-head .muted { font-size: 13px; }
+.part-tag { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; color: var(--accent-ink); }
+.pa { border-top: 3px solid var(--lane-ui); } .pa .part-tag { background: var(--lane-ui); }
+.pb { border-top: 3px solid var(--lane-java); } .pb .part-tag { background: var(--lane-java); }
+
+/* UI mockups: drawn in the app's own 2018 Facebook look, so they stay light in both themes on purpose */
+:root { --fb-bg: #e9ebee; --fb-card: #ffffff; --fb-line: #dddfe2; --fb-blue: #4267b2; --fb-blue-soft: #e7f0fd; --fb-ink: #1d2129; --fb-muted: #606770; --fb-green: #42b72a; --fb-red: #d93025; --fb-bar: #d8e3f7; }
+.mock { background: var(--fb-bg); color: var(--fb-ink); border-radius: 10px; padding: 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; font-family: Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.4; overflow-x: auto; }
+.mock p { margin: 6px 0; max-width: none; }
+.fb-panel { flex: 1 1 260px; min-width: 0; max-width: 420px; display: grid; gap: 8px; }
+.fb-panel.wide { max-width: 760px; flex-basis: 100%; }
+.fb-cap { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fb-muted); }
+.fb-card { background: var(--fb-card); border: 1px solid var(--fb-line); border-radius: 4px; padding: 10px 12px; display: grid; gap: 8px; }
+.fb-ghost { color: var(--fb-muted); font-style: italic; }
+.fb-row { display: flex; gap: 8px; align-items: center; }
+.fb-av { width: 32px; height: 32px; border-radius: 50%; color: #fff; display: inline-grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+.fb-menu .fb-av, .fb-notif .fb-av { width: 24px; height: 24px; font-size: 9px; }
+.fb-muted { color: var(--fb-muted); font-size: 12px; }
+.fb-link { color: var(--fb-blue); text-decoration: none; cursor: default; }
+.fb-list { display: grid; gap: 10px; }
+.fb-list > div + div { border-top: 1px solid var(--fb-line); padding-top: 10px; }
+.fb-input { border: 1px solid var(--fb-line); border-radius: 4px; padding: 7px 9px; background: #fff; }
+.fb-ph { color: #90949c; }
+.fb-caret { display: inline-block; width: 1px; height: 14px; background: var(--fb-ink); vertical-align: -2px; margin-left: 1px; }
+.fb-menu { border: 1px solid var(--fb-line); border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,.12); background: #fff; display: grid; margin-top: -4px; }
+.fb-menu > div { display: flex; gap: 8px; align-items: center; padding: 6px 10px; }
+.fb-menu > div.on { background: var(--fb-blue-soft); }
+.fb-notif { grid-template-columns: auto 1fr; background: var(--fb-blue-soft); }
+.fb-btn { display: inline-block; padding: 5px 12px; border-radius: 4px; border: 1px solid var(--fb-line); background: #f5f6f7; font-weight: 600; font-size: 12px; color: var(--fb-ink); }
+.fb-btn.primary { background: var(--fb-blue); border-color: var(--fb-blue); color: #fff; }
+.fb-btn.danger { color: var(--fb-red); }
+.fb-btn.sm { padding: 3px 9px; font-size: 11.5px; }
+.fb-select { display: inline-block; border: 1px solid var(--fb-line); border-radius: 4px; padding: 3px 8px; background: #f5f6f7; font-size: 12px; color: var(--fb-ink); }
+.fb-bar { position: relative; border: 1px solid var(--fb-line); border-radius: 4px; height: 30px; overflow: hidden; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; }
+.fb-bar span { position: absolute; inset: 0 auto 0 0; background: #eceef1; }
+.fb-bar.mine { border-color: var(--fb-blue); }
+.fb-bar.mine span { background: var(--fb-bar); }
+.fb-bar em, .fb-bar i { position: relative; font-style: normal; font-weight: 600; }
+.fb-sched { border: 1px solid var(--fb-line); border-radius: 4px; padding: 8px 10px; display: grid; gap: 6px; background: #f5f6f7; }
+.fb-chat { background: #fff; border: 1px solid var(--fb-line); border-radius: 6px; overflow: hidden; display: grid; }
+.fb-chat-head { background: var(--fb-blue); color: #fff; font-weight: 700; padding: 6px 10px; display: flex; gap: 8px; align-items: center; }
+.fb-chat-head .fb-av { width: 22px; height: 22px; font-size: 9px; }
+.fb-msgs { padding: 10px; display: grid; gap: 6px; }
+.bub { max-width: 80%; padding: 6px 10px; border-radius: 16px; position: relative; }
+.bub.them { background: #f1f0f0; justify-self: start; }
+.bub.me { background: #0084ff; color: #fff; justify-self: end; }
+.bub .quote { background: rgba(255,255,255,.22); border-left: 3px solid #fff; border-radius: 6px; padding: 4px 8px; margin-bottom: 4px; font-size: 12px; }
+.fb-hover { position: absolute; right: -66px; top: 4px; font-size: 11px; background: #fff; border: 1px solid var(--fb-line); border-radius: 10px; padding: 1px 7px; color: var(--fb-muted); white-space: nowrap; }
+.fb-replying { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--fb-line); border-left: 3px solid var(--fb-blue); padding: 6px 10px; background: #f5f6f7; }
+.fb-chat > .fb-input { border: 0; border-top: 1px solid var(--fb-line); border-radius: 0; color: #90949c; }
+.fb-toggle { width: 34px; height: 20px; border-radius: 10px; background: #ccd0d5; position: relative; flex: none; }
+.fb-toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
+.fb-toggle.on { background: var(--fb-blue); }
+.fb-toggle.on::after { left: 16px; }
+.fb-dialog { box-shadow: 0 6px 18px rgba(0,0,0,.15); }
+.fb-dialog del { color: var(--fb-red); }
+.fb-dialog ins { color: var(--fb-green); text-decoration: none; font-weight: 700; }
+.fb-radio { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #8d949e; flex: none; }
+.fb-radio.on { border: 4px solid var(--fb-blue); }
+.fb-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fb-tile { background: #fff; border: 1px solid var(--fb-line); border-radius: 4px; padding: 6px; display: grid; gap: 2px; }
+.fb-tile .cover { height: 54px; border-radius: 3px; margin-bottom: 4px; }
+.fb-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.fb-table th { text-align: left; color: var(--fb-muted); font-weight: 600; border-bottom: 1px solid var(--fb-line); padding: 6px; }
+.fb-table td { border-bottom: 1px solid var(--fb-line); padding: 6px; vertical-align: top; }
+.fb-table tr.sel td { background: var(--fb-blue-soft); font-weight: 600; }
+.fb-table td[colspan] { background: #fafbfc; }
+.fb-table td[colspan] > * + * { margin-top: 6px; }
+.fb-preview { border-left: 3px solid var(--fb-red); padding: 4px 8px; background: #fff; }
+@media (max-width: 760px) { .split { grid-template-columns: minmax(0, 1fr); } .fb-hover { display: none; } }
+.ticket { border-left: 4px solid var(--line); }
+.ticket[data-st="In progress"] { border-left-color: var(--warn); }
+.ticket[data-st="In review"] { border-left-color: var(--accent); }
+.ticket[data-st="Done"] { border-left-color: var(--ok); }
+.t-head { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
+.t-id { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; }
+.t-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.lvl { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; }
+.lvl[data-l="Easy"] { color: var(--ok); }
+.lvl[data-l="Medium"] { color: var(--warn); }
+.lvl[data-l="Hard"] { color: var(--lane-java); }
+.story { font-style: italic; color: var(--muted); }
+.t-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; }
+.t-grid > div { min-width: 0; }
+ul.crit, ul.files { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+ul.files { list-style: none; padding-left: 0; }
+.t-work { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.fld { display: grid; gap: 4px; font-size: 13px; }
+.fld.grow { flex: 1 1 260px; min-width: 0; }
+input[type="url"] { font: inherit; font-size: 13.5px; width: 100%; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+
+.iv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 22px; align-items: start; }
+.iv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+ol.qs { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; counter-reset: q; }
+ol.qs li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 7px 4px; border-bottom: 1px solid var(--line); counter-increment: q; }
+ol.qs li:last-child { border-bottom: 0; }
+ol.qs input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--ok); }
+ol.qs label { cursor: pointer; }
+ol.qs label::before { content: "Q" counter(q) "  "; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+ol.qs input:checked + label { color: var(--muted); }
+.dsa { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.dsa .tag { font-size: 11px; letter-spacing: 0.06em; margin-right: 4px; }
+.chip { font-size: 13px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); }
+.mentor { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+
+/* Narrow screens */
+@media (max-width: 900px) {
+  .wrap, .appbar .in, .maintabs .in, .subtabs .in { padding-inline: 16px; }
+  .content { padding-block: 20px 48px; }
+  .lanes, ol.steps, .iv-grid, .bottom-pair, .tk-grid { grid-template-columns: minmax(0, 1fr); }
+  .mtab { font-size: 14.5px; padding: 11px 14px 12px; }
+  .maintabs .in { padding-top: 12px; }
+}
+@media (max-width: 520px) { .appbar .save-state { display: none; } .brand small { display: none; } }
+@media (max-width: 640px) { .t-grid { grid-template-columns: 1fr; } }
+@media (max-width: 520px) {
+  .card { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ===== Polish layer ===== */
+body { font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { letter-spacing: -0.015em; }
+h2 { font-size: 22px; }
+h3 { font-size: 16.5px; font-weight: 700; }
+.eyebrow { font-size: 11.5px; letter-spacing: .1em; color: var(--accent); }
+.muted { color: var(--muted); }
+a { color: var(--accent); }
+
+/* title bar */
+.appbar { background: var(--appbar); }
+.appbar .in { padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; font-size: 18px; letter-spacing: -0.01em; }
+.brand .mark { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #2dd4bf, #0f766e); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.brand .mark svg { width: 17px; height: 17px; color: #fff; }
+.brand small { margin-left: 2px; padding-left: 12px; border-left: 1px solid rgba(255,255,255,.16); color: #93a0b4; font-size: 13px; }
+.appbar .save-state { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); padding: 5px 12px; border-radius: 999px; color: #c3cad6; }
+
+/* main tabs */
+.navwrap { box-shadow: 0 1px 0 var(--line), 0 6px 18px -12px rgba(16,24,40,.25); }
+.maintabs .in { gap: 6px; padding-top: 14px; }
+.mtab { font-size: 15px; font-weight: 600; color: rgba(255,255,255,.86); border-radius: 12px 12px 0 0; padding: 12px 20px 13px; transition: background .15s, color .15s; }
+.mtab:hover { background: rgba(255,255,255,.1); color: #fff; }
+.mtab svg { width: 20px; height: 20px; }
+.mtab[aria-selected="true"] { background: var(--surface); color: var(--band-ink); }
+
+/* sub tabs */
+.subtabs { border-bottom: 1px solid var(--line); }
+.subtabs .in { gap: 2px; min-height: 54px; }
+.stab { font-size: 14px; font-weight: 500; color: var(--muted); padding: 15px 14px 13px; border-bottom-width: 2.5px; transition: color .15s, border-color .15s; }
+.stab:hover { color: var(--ink); }
+.stab[aria-selected="true"] { color: var(--band-ink); font-weight: 600; }
+.stab .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: var(--code-bg); font-size: 11px; opacity: 1; color: var(--muted); }
+.stab[aria-selected="true"] .n { background: var(--accent-soft); color: var(--band-ink); }
+
+/* pills */
+.pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--code-bg); color: var(--muted); letter-spacing: .01em; }
+.pill[data-st="In progress"] { background: color-mix(in srgb, var(--warn) 14%, transparent); color: var(--warn); }
+.pill[data-st="Submitted"] { background: color-mix(in srgb, var(--info) 14%, transparent); color: var(--info); }
+.pill[data-st="Reviewed"] { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+
+/* layout + cards */
+.content { padding-block: 28px 72px; }
+section.panel { gap: 20px; }
+.card { border-radius: var(--radius); border-color: var(--line); box-shadow: var(--shadow); padding: 22px 24px; }
+.toolkit .card, .scenario .card { padding: 18px 20px; }
+.toolkit .card h3 { display: flex; gap: 10px; align-items: center; }
+pre { border-radius: 8px; border: 1px solid var(--line); }
+code { border-radius: 5px; }
+
+/* hero */
+.hero { position: relative; overflow: hidden; border-radius: 18px; padding: 34px 36px; background:
+  radial-gradient(900px 300px at 100% -20%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%),
+  linear-gradient(180deg, var(--surface), var(--surface-2)); border: 1px solid var(--line); box-shadow: var(--shadow); display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); gap: 32px; align-items: center; }
+.hero h1 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; letter-spacing: -0.025em; margin-top: 8px; }
+.hero .lead { color: var(--muted); font-size: 16px; margin-top: 12px; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.stat b { display: block; font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+.route { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.route .stop { padding: 14px 18px; display: grid; gap: 2px; position: relative; border-top: 3px solid currentColor; }
+.route .stop + .stop { border-left: 1px solid var(--line); }
+.route .stop + .stop::before { content: ""; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; background: var(--surface); border-right: 1px solid var(--line); border-top: 1px solid var(--line); transform: translateY(-50%) rotate(45deg); }
+.route .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
+.route .v { color: var(--ink); font-weight: 600; font-size: 14.5px; }
+.route .s { color: var(--muted); font-size: 12.5px; }
+
+/* steps */
+ol.steps { gap: 12px; }
+ol.steps li { border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); transition: border-color .15s; }
+ol.steps li:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+ol.steps input[type="checkbox"], ol.qs input { accent-color: var(--accent); }
+
+/* lanes + inputs */
+.lane .tag { padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, currentColor 12%, transparent); font-weight: 600; }
+.lane .bar { width: 4px; border-radius: 4px; opacity: .9; }
+.lane { grid-template-columns: 4px 1fr; }
+textarea, select, input[type="url"] { background: var(--surface-2); border-color: var(--line); border-radius: 10px; transition: border-color .15s, box-shadow .15s, background .15s; }
+textarea { padding: 11px 13px; }
+textarea:hover, select:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+textarea:focus, select:focus, input[type="url"]:focus { outline: none; border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+select { padding: 7px 12px; }
+
+/* buttons */
+.btn, .tk-btn { border-radius: 10px; padding: 8px 14px; font-weight: 600; box-shadow: var(--shadow); transition: border-color .15s, color .15s; }
+.btn:hover, .tk-btn:hover { border-color: var(--accent); color: var(--accent); }
+.pager { margin-top: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
+
+/* flow + change cards */
+.mentor { border-color: color-mix(in srgb, var(--info) 35%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--info) 4%, var(--surface)), var(--surface)); }
+.change { border-style: dashed; border-width: 1.5px; box-shadow: none; background: var(--surface-2); }
+.lock { border-radius: 999px; padding: 3px 10px; }
+.lock.open { background: color-mix(in srgb, var(--ok) 14%, transparent); }
+
+/* assignments */
+.card.ticket { padding: 0; gap: 0; border-left-width: 4px; overflow: hidden; }
+.ticket > summary:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+.ticket > summary { padding: 20px 60px 20px 22px; }
+.ticket[open] { box-shadow: var(--shadow-lg); }
+.t-id { color: var(--accent); font-weight: 600; }
+.lvl { background: color-mix(in srgb, currentColor 10%, transparent); border-color: transparent; }
+.chip { background: var(--surface-2); }
+.contract { border: 1px solid var(--line); border-radius: 10px; }
+.part { border-radius: 12px; background: var(--surface); }
+.mock { border-radius: 12px; border: 1px solid var(--line); }
+
+/* interview */
+ol.qs li { padding: 9px 4px; }
+.iv-head .pill { font-size: 11.5px; }
+
+@media (max-width: 1000px) { .hero { grid-template-columns: minmax(0, 1fr); padding: 26px 22px; } }
+@media (max-width: 700px) {
+  .route { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .route .stop:nth-child(3) { border-left: 0; }
+  .route .stop:nth-child(3)::before { display: none; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stat b { font-size: 22px; }
+  .card { padding: 18px; }
+}
+</style>
+</head>
+<body>
+
+<header class="appbar"><div class="in">
+  <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6h7a3 3 0 0 1 0 6h-4a3 3 0 0 0 0 6h7"/></svg></span>Flow Workbook<small>Facebook Clone 2018 · junior developer onboarding</small></div>
+  <div class="save-state" data-s="idle"><span class="dot"></span><span>Connecting…</span></div>
+</div></header>
+<div class="navwrap">
+  <nav class="maintabs" aria-label="Sections"><div class="in" role="tablist" id="mainTabs"></div></nav>
+  <nav class="subtabs" aria-label="Pages in this section"><div class="in" role="tablist" id="subTabs"></div></nav>
+</div>
+
+<div class="wrap">
+  <div class="content">
+    <main id="panels"></main>
+  </div>
+</div>
+
+<script>
+const ONBOARDING = [
+  { t: "Run the whole stack", d: "Run setup.bat once, then start.bat. Open http://localhost:3000 and log in with any seeded user. Every seeded user's password is password123 (see README.md)." },
+  { t: "Run the frontend on its own", d: "In frontend/, run npm install, then npm run dev, and open http://localhost:5173. Read vite.config.ts and find out how /api calls reach the backend on port 8080." },
+  { t: "Read the two docs", d: "Read README.md and docs/ARCHITECTURE.md end to end. Write down 5 questions for your first check-in." },
+  { t: "Learn the folder layout", d: "Frontend: components/atoms → molecules → organisms → templates → pages, plus api/endpoints.ts, hooks/ and context/. Backend: controller → service → repository → entity, plus dto/, security/ and config/." },
+  { t: "Open the database", d: "Connect with DBeaver to localhost:5432, database facebookclone, user fbclone, password fbclone. List the tables and look at the rows in users and posts." },
+  { t: "Run the backend tests", d: "In backend/, run mvn test. Read AuthFlowIntegrationTest.java and explain what each test proves." },
+  { t: "Study the worked example", d: "Open the “Worked example” section. It traces “Save a post” in exactly the format you will use for the five flows." },
+];
+
+const FIELDS = [
+  { id: "ui", lane: "ui", tag: "UI", label: "React components, hooks and API function", hint: "Which page, organism and molecule show the button? Which handler runs on click? Which function in api/endpoints.ts sends the request? What state updates when the response comes back?" },
+  { id: "http", lane: "http", tag: "HTTP", label: "The API call", hint: "Method and URL, request body, response status and body, and the Authorization header if any. Copy them from DevTools → Network." },
+  { id: "java", lane: "java", tag: "Java", label: "Controller, service and repository", hint: "Write Class.method for each layer, plus the DTO records and any security class the request passes through." },
+  { id: "db", lane: "db", tag: "DB", label: "Tables read and written", hint: "For each table: SELECT, INSERT, UPDATE or DELETE, and which columns change. Check your answer by looking at the rows before and after." },
+  { id: "methods", lane: "key", tag: "Key", label: "The 5 most important methods", hint: "One line each: Class.method and what would break if it were removed." },
+  { id: "questions", lane: "misc", tag: "Notes", label: "Questions and surprises", hint: "Anything you didn't understand, anything that looked odd, and any bug you noticed." },
+  { id: "sequence", lane: "misc", tag: "Flow", label: "The whole flow in one line", hint: "For example: button → Component.handler → api.fn → POST /api/... → Controller.method → Service.method → Repository.method → table → response → UI update", wide: true },
+];
+
+const FLOWS = [
+  {
+    key: "signup", name: "Sign up",
+    scenario: "Log out. On the sign-up form, create a new account with a new email address.",
+    clue: "Start at components/pages/RegisterPage. Then search the backend for the URL you see in the Network tab.",
+    extra: "Where is the password hashed? Does the new user get logged in right away, and how?",
+    change: { title: "Welcome notification", desc: "Right after sign-up, send the new user a notification that says “Welcome to Facebook, <first name>!”, linking to their profile.",
+      touches: ["Java: call the existing notification service from the sign-up service. Don't write a new insert.", "DB: one new row in notifications", "UI: the bell shows 1 unread after the first login", "Test: extend AuthFlowIntegrationTest"] },
+  },
+  {
+    key: "login", name: "Log in",
+    scenario: "Log out, then log in with a seeded user. Then refresh the page while you are logged in.",
+    clue: "Start at components/pages/LoginPage and context/AuthProvider.tsx. On the backend, read security/ before the controller.",
+    extra: "Where is the JWT created, where is it stored in the browser, and which class checks it on every later request? Why does the backend return 401 instead of 403?",
+    change: { title: "Show the last login time", desc: "Record when each user last logged in, and show it on the Settings page as “Last login: 12 Oct 2026, 18:40”.",
+      touches: ["DB: a new last_login_at column on users", "Java: entity field, set it during login, add it to the user DTO", "UI: Settings page", "Test: log in twice and check the value changes"] },
+  },
+  {
+    key: "post", name: "Create a post",
+    scenario: "On the home feed, write a text post with a feeling and one tagged friend, and publish it.",
+    clue: "Start at components/organisms/PostComposer. PostService.java is large, so search it for the method the controller calls.",
+    extra: "How does privacy (Public / Friends / Only me) change what gets saved? Which tables besides posts get rows?",
+    change: { title: "Block duplicate posts", desc: "If a user posts exactly the same text twice within 60 seconds, reject the second one with “You just posted this.” and show that message in the composer.",
+      touches: ["Java: a repository query plus a check in the service that throws ApiException", "HTTP: 409 Conflict", "UI: show the error under the composer, and keep the text", "Test: an integration test that posts twice"] },
+  },
+  {
+    key: "reply", name: "Reply to a post",
+    scenario: "Comment on a friend's post. Then reply to that comment, and reply to the reply.",
+    clue: "Start at components/organisms/CommentThread and molecules/CommentComposer. Look at what the request body carries when you reply instead of comment.",
+    extra: "How does the backend know whether a comment is a reply? Who gets a notification? What stops replies from going deeper than 3 levels?",
+    change: { title: "Pin a comment", desc: "Let the post's author pin one top-level comment so it shows first. Pinning another comment unpins the old one.",
+      touches: ["DB: a new pinned column on comments", "Java: a new endpoint, plus a permission check that only the post's author can pin", "UI: a “Pin” item in the comment menu and a “Pinned” label", "Test: author can pin; anyone else gets 403"] },
+  },
+  {
+    key: "message", name: "Send a chat message",
+    scenario: "Open a chat with a friend from the right sidebar and send a message. Log in as that friend in another browser and reply.",
+    clue: "Start at components/organisms/ChatDock (ChatWindow.tsx) and hooks/useChat.ts. Look for how new messages appear without a page refresh.",
+    extra: "How does the other person get the message: push or polling? How often? Which tables change, and how is the unread count worked out?",
+    change: { title: "Edit a sent message", desc: "Let a sender edit their own message within 5 minutes of sending it. Edited messages show “(edited)”.",
+      touches: ["DB: a new edited_at column on messages", "Java: a PUT endpoint, with an owner check and the 5-minute rule", "UI: an Edit action on your own bubbles, saved on Enter and cancelled on Esc", "Test: edit within 5 minutes works; after 5 minutes gets 400"] },
+  },
+];
+
+const EXAMPLE = {
+  name: "Save a post",
+  scenario: "On any post in the feed, open the “…” menu and click “Save post”. Then click it again to unsave.",
+  rows: [
+    ["ui", "UI", "PostCard (organisms) shows the menu → the save handler calls postsApi.toggleSave(postId) in api/endpoints.ts → the card updates its saved flag from the response."],
+    ["http", "HTTP", "POST /api/posts/{postId}/save\nAuthorization: Bearer <jwt> (added by the axios interceptor)\n200 → { \"postId\": 42, \"saved\": true }"],
+    ["java", "Java", "JwtAuthenticationFilter → PostController.toggleSave(postId, @CurrentUser me)\n→ PostService.toggleSave(postId, userId)\n→ SavedPostRepository.findByUserIdAndPostId / save / delete"],
+    ["db", "DB", "saved_posts: INSERT (user_id, post_id) on save, DELETE on unsave\nposts: SELECT, to check that the post exists (requirePost)"],
+    ["key", "Key", "PostService.toggleSave: the toggle logic, returning true when saved and false when unsaved\nPostService.requirePost: throws a 404 ApiException when the post id is wrong\nSavedPostRepository.findByUserIdAndPostId: a Spring Data derived query; no SQL is written by hand"],
+    ["misc", "Flow", "Save post → PostCard → postsApi.toggleSave → POST /api/posts/42/save → PostController.toggleSave → PostService.toggleSave → SavedPostRepository → saved_posts → {saved:true} → card updates"],
+  ],
+};
+
+const AV = (initials, hue) => `<span class="fb-av" style="background:hsl(${hue} 55% 48%)">${initials}</span>`;
+const ASSIGNMENTS = [
+  { id: "ENH-01", title: "Hashtags and trending topics", level: "Medium", daysA: 2, daysB: 3,
+    story: "As a user, I want to tap a #hashtag to see every post that uses it, and see which hashtags are trending today.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">In the feed</div>
+        <div class="fb-card"><div class="fb-row">${AV("PS", 210)}<div><b>Priya Sharma</b><div class="fb-muted">2 hrs · 🌐</div></div></div>
+          <p>Weekend trek done! Best views in years <a class="fb-link">#travel</a> <a class="fb-link">#Kodaikanal</a></p></div></div>
+      <div class="fb-panel"><div class="fb-cap">Right sidebar</div>
+        <div class="fb-card"><b>Trending</b>
+          <div class="fb-list"><div><a class="fb-link">#ChennaiRains</a><div class="fb-muted">1,204 posts today</div></div>
+          <div><a class="fb-link">#travel</a><div class="fb-muted">342 posts today</div></div>
+          <div><a class="fb-link">#IndvsAus</a><div class="fb-muted">298 posts today</div></div></div></div></div>
+      <div class="fb-panel"><div class="fb-cap">/hashtag/travel</div>
+        <div class="fb-card"><div style="font-size:20px;font-weight:700">#travel</div><div class="fb-muted">342 posts</div></div>
+        <div class="fb-card fb-ghost">Posts with #travel, newest first…</div></div>`,
+    api: ["GET /api/hashtags/{tag}/posts?page=0&size=10 → Post[]", "GET /api/hashtags/trending → [{ tag, count }]"],
+    functional: [
+      "Hashtags in post text (#word: letters, digits and _) show as blue links",
+      "Clicking one opens /hashtag/:tag: a header with the tag and post count, then posts newest first with infinite scroll",
+      "A “Trending” card in the right sidebar shows the top 5 tags from the last 24 hours, with post counts",
+      "#Travel and #travel go to the same page",
+      "Empty state: “No posts with #tag yet”",
+    ],
+    technical: [
+      "New hashtags and post_hashtags tables. Tags are extracted on post create and edit, and an edit replaces the old tags",
+      "Tags are stored in lower case. Ignore a lone “#” and the # inside emails or URLs",
+      "The hashtag feed respects each post's privacy and blocks, just like the main feed",
+      "The trending query counts only the last 24 hours; add an index so it stays fast",
+      "Tests: tag extraction edge cases, privacy filtering and the trending query",
+    ],
+    start: ["service/PostService.java (create and update)", "organisms/PostCard", "organisms/RightSidebar", "repository/PostRepository.java"] },
+
+  { id: "ENH-02", title: "@Mentions in posts and comments", level: "Medium", daysA: 3, daysB: 2,
+    story: "As a user, I want to type @ and pick a friend, so they get notified and their name links to their profile.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">While typing</div>
+        <div class="fb-card"><div class="fb-input">Great dinner with @Sar<span class="fb-caret"></span></div>
+          <div class="fb-menu"><div class="on">${AV("SC", 340)} Sarah Connor</div><div>${AV("SK", 30)} Sara Khan</div><div>${AV("SM", 160)} Sarath Menon</div></div></div></div>
+      <div class="fb-panel"><div class="fb-cap">After posting</div>
+        <div class="fb-card"><div class="fb-row">${AV("RV", 260)}<div><b>Rahul Verma</b><div class="fb-muted">Just now · 👥</div></div></div>
+          <p>Great dinner with <a class="fb-link"><b>Sarah Connor</b></a>!</p></div>
+        <div class="fb-card fb-notif">${AV("RV", 260)}<div><b>Rahul Verma</b> mentioned you in a post.<div class="fb-muted">Just now</div></div></div></div>`,
+    api: ["GET /api/friends/search?q=sar → [{ id, name, avatarUrl }]", "Post and comment create/update bodies gain mentions: [userId]"],
+    functional: [
+      "Typing @ and letters in the post box or a comment box opens a dropdown of up to 5 matching friends",
+      "Arrow keys move through the list, Enter or a click picks a friend, and Esc closes it",
+      "The picked name shows highlighted in the box, and Backspace removes the whole name",
+      "In posts and comments, mentioned names show as bold profile links",
+      "The mentioned friend sees “X mentioned you in a post”, which opens that post",
+    ],
+    technical: [
+      "Mentions are saved by user id in a mentions table (post or comment id, user id), not as plain text",
+      "Only friends can be mentioned; blocked users never appear in search and are never notified",
+      "Editing a post notifies only newly added mentions",
+      "Renaming a user updates how existing mentions display",
+      "Tests: the notification, the block rule, the edit rule and a non-friend id (400)",
+    ],
+    start: ["organisms/PostComposer", "molecules/CommentComposer", "service/NotificationService.java", "service/PostService.java"] },
+
+  { id: "ENH-03", title: "Polls in posts", level: "Medium", daysA: 3, daysB: 2,
+    story: "As a user, I want to post a question with 2–4 options, so my friends can vote and everyone sees the results.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">Create post → Poll</div>
+        <div class="fb-card"><div class="fb-input">Where should we go this weekend?</div>
+          <div class="fb-input">Option 1: Goa</div><div class="fb-input">Option 2: Ooty</div><div class="fb-input fb-ph">Option 3 (optional)</div>
+          <a class="fb-link">+ Add option</a>
+          <div class="fb-row" style="justify-content:space-between"><span class="fb-muted">Poll ends in <span class="fb-select">1 day ▾</span></span><span class="fb-btn primary">Post</span></div></div></div>
+      <div class="fb-panel"><div class="fb-cap">In the feed, after voting</div>
+        <div class="fb-card"><div class="fb-row">${AV("PS", 210)}<div><b>Priya Sharma</b><div class="fb-muted">3 hrs · 👥</div></div></div>
+          <p><b>Where should we go this weekend?</b></p>
+          <div class="fb-bar mine"><span style="width:62%"></span><em>✓ Goa</em><i>62%</i></div>
+          <div class="fb-bar"><span style="width:38%"></span><em>Ooty</em><i>38%</i></div>
+          <div class="fb-muted">128 votes · 23 hrs left · <a class="fb-link">Change vote</a></div></div></div>`,
+    api: ["POST /api/posts with poll: { question, options[], durationHours }", "POST /api/polls/{pollId}/vote { optionId } → poll results", "Post responses include poll: { options[{ id, text, votes }], myOptionId, closesAt }"],
+    functional: [
+      "The composer has a Poll button that shows a question, 2–4 option boxes (up to 80 characters each) and a duration of 1 day, 3 days or 1 week",
+      "Before you vote, options are buttons. After you vote, results show as percentage bars with your choice ticked",
+      "You can change your vote until the poll closes",
+      "Closed polls show “Final results” and can't be voted on",
+      "The poll works in the feed, on profiles and in groups",
+    ],
+    technical: [
+      "New poll, poll_options and poll_votes tables; a unique constraint on (poll_id, user_id)",
+      "Changing a vote updates the existing row instead of adding a new one",
+      "Two users voting at the same moment are both counted",
+      "Voting after the poll closes returns 400",
+      "Tests: vote, change vote, vote after close, and the duplicate-vote constraint",
+    ],
+    start: ["organisms/PostComposer", "organisms/PostCard", "entity/Post.java", "dto/PostDtos.java"] },
+
+  { id: "ENH-04", title: "Schedule a post for later", level: "Medium", daysA: 2, daysB: 3,
+    story: "As a user, I want to write a post now and have it published automatically at a time I choose.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">Create post → Schedule</div>
+        <div class="fb-card"><div class="fb-input">Happy Diwali everyone! 🪔</div>
+          <div class="fb-sched"><b>Schedule post</b><div class="fb-row"><span class="fb-select">📅 Sat, 1 Nov 2026</span><span class="fb-select">🕘 9:00 AM</span></div>
+          <div class="fb-muted">Times are in your timezone (IST)</div></div>
+          <div class="fb-row" style="justify-content:flex-end"><span class="fb-btn">Cancel</span><span class="fb-btn primary">Schedule</span></div></div></div>
+      <div class="fb-panel"><div class="fb-cap">Scheduled posts page</div>
+        <div class="fb-card"><b>Scheduled posts (2)</b>
+          <div class="fb-list"><div><div>Happy Diwali everyone! 🪔</div><div class="fb-muted">Publishes Sat 1 Nov, 9:00 AM</div><div class="fb-row"><span class="fb-btn sm">Edit time</span><span class="fb-btn sm">Publish now</span><span class="fb-btn sm danger">Delete</span></div></div>
+          <div><div>Match day! Who's watching?</div><div class="fb-muted">Publishes Sun 2 Nov, 2:30 PM</div></div></div></div></div>`,
+    api: ["POST /api/posts with scheduledAt (ISO time, UTC)", "GET /api/posts/scheduled → Post[]", "PATCH /api/posts/{id}/schedule { scheduledAt } · POST /api/posts/{id}/publish-now"],
+    functional: [
+      "The composer has a Schedule option with a date and time picker in the user's timezone",
+      "The time must be 10 minutes to 30 days ahead; otherwise the picker shows the reason",
+      "After scheduling, a toast says “Post scheduled for Sat 1 Nov, 9:00 AM” and the post doesn't appear in the feed",
+      "A Scheduled posts page lists upcoming posts with Edit time, Publish now and Delete",
+      "When the time comes, the post appears in the feed on its own",
+    ],
+    technical: [
+      "A scheduled_at column on posts; feed, profile, search and hashtag queries hide posts that aren't due yet",
+      "A Spring @Scheduled job publishes due posts every minute",
+      "Two backend instances must not publish the same post twice (use a database lock or a status update with a condition)",
+      "Times are stored in UTC",
+      "Tests: hidden before its time, published by the job, and the two-instance case",
+    ],
+    start: ["organisms/PostComposer", "service/PostService.java", "repository/PostRepository.java (feed queries)", "FacebookCloneApplication.java (enable scheduling)"] },
+
+  { id: "ENH-05", title: "Reply to a specific chat message", level: "Medium", daysA: 2, daysB: 2,
+    story: "As a user in a busy chat, I want to reply to one particular message, so it's clear what I'm answering.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">Chat window</div>
+        <div class="fb-chat">
+          <div class="fb-chat-head">${AV("SC", 340)} Sarah Connor</div>
+          <div class="fb-msgs">
+            <div class="bub them">Are we still on for Saturday? <span class="fb-hover">↩ Reply</span></div>
+            <div class="bub them">Also, can you bring the charger</div>
+            <div class="bub me"><div class="quote"><b>Sarah Connor</b><br>Are we still on for Saturday?</div>Yes! 7 pm works</div>
+          </div>
+          <div class="fb-replying"><div><b>Replying to Sarah Connor</b><div class="fb-muted">Are we still on for Saturday?</div></div><span>✕</span></div>
+          <div class="fb-input">Type a message…</div>
+        </div></div>`,
+    api: ["POST /api/messages/conversations/{id} body gains replyToId", "Message responses include replyTo: { id, senderName, preview, deleted }"],
+    functional: [
+      "Hovering a message shows a Reply action; long-press does the same on phones",
+      "The input shows a “Replying to …” bar with the original text and a ✕ to cancel",
+      "The reply bubble shows a short quote of the original above the new text",
+      "Clicking the quote scrolls to the original message and highlights it for 2 seconds",
+      "If the original was deleted, the quote shows “Message deleted”",
+      "Works in both the Messenger page and the small chat windows",
+    ],
+    technical: [
+      "A nullable reply_to_id column on messages",
+      "replyToId must belong to the same conversation; otherwise return 400",
+      "The preview is cut to 100 characters on the server",
+      "Tests: reply, a replyToId from another conversation, and a deleted original",
+    ],
+    start: ["organisms/ChatDock/ChatWindow.tsx", "organisms/MessengerPanel", "molecules/MessageBubble", "dto/MessageDtos.java (SendMessageRequest)", "service/MessageService.java"] },
+
+  { id: "ENH-06", title: "Notification settings", level: "Medium", daysA: 2, daysB: 2,
+    story: "As a user who gets too many notifications, I want to choose which kinds I receive.",
+    mock: `
+      <div class="fb-panel wide"><div class="fb-cap">Settings → Notifications</div>
+        <div class="fb-card"><div class="fb-row" style="justify-content:space-between"><div><b>Pause all notifications</b><div class="fb-muted">Turns back on after 8 hours</div></div><span class="fb-toggle"></span></div></div>
+        <div class="fb-card"><b>What you get notified about</b>
+          <div class="fb-list">
+            <div class="fb-row" style="justify-content:space-between"><span>Comments on your posts</span><span class="fb-toggle on"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Reactions</span><span class="fb-toggle on"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Friend requests</span><span class="fb-toggle on"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Mentions</span><span class="fb-toggle on"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Group activity</span><span class="fb-toggle"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Event reminders</span><span class="fb-toggle on"></span></div>
+            <div class="fb-row" style="justify-content:space-between"><span>Birthdays</span><span class="fb-toggle"></span></div>
+          </div></div></div>`,
+    api: ["GET /api/notification-settings → { types: { COMMENT: true, … }, pausedUntil }", "PUT /api/notification-settings (same shape)"],
+    functional: [
+      "Settings has a Notifications section with an on/off switch for each type shown",
+      "Each switch saves immediately and shows “Saved”",
+      "“Pause all” stops every notification for 8 hours and shows when it ends",
+      "Turning a type off doesn't remove notifications you already have",
+    ],
+    technical: [
+      "A notification_settings table; new users get every type turned on",
+      "NotificationService checks the setting in one place before creating a notification, not in every caller",
+      "pausedUntil is stored as a time, and the pause ends on its own",
+      "Tests: each type is skipped when off, and the pause ends on time",
+    ],
+    start: ["pages/SettingsPage", "service/NotificationService.java", "entity/Notification.java"] },
+
+  { id: "ENH-07", title: "Post edit history", level: "Medium", daysA: 2, daysB: 1,
+    story: "As a reader, I want to see what a post said before it was edited, so edits can't quietly change its meaning.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">Post header</div>
+        <div class="fb-card"><div class="fb-row">${AV("RV", 260)}<div><b>Rahul Verma</b><div class="fb-muted">5 hrs · 🌐 · <a class="fb-link">Edited</a></div></div></div>
+          <p>Selling my bike, ₹40,000, DM me</p></div></div>
+      <div class="fb-panel"><div class="fb-cap">Dialog after clicking “Edited”</div>
+        <div class="fb-card fb-dialog"><div class="fb-row" style="justify-content:space-between"><b>Edit history</b><span>✕</span></div>
+          <div class="fb-list">
+            <div><div class="fb-muted">Today, 3:12 PM · current</div>Selling my bike, <del>₹45,000</del> <ins>₹40,000</ins>, DM me</div>
+            <div><div class="fb-muted">Today, 10:05 AM · original</div>Selling my bike, ₹45,000, DM me</div>
+          </div></div></div>`,
+    api: ["GET /api/posts/{id}/revisions → [{ content, feeling, location, editedAt }]"],
+    functional: [
+      "Edited posts show “Edited” next to the time",
+      "Clicking it opens a dialog listing every version, newest first",
+      "Each version shows removed words struck through in red and added words in green",
+      "The dialog closes with ✕, Esc or a click outside it",
+    ],
+    technical: [
+      "Each edit saves the previous text, feeling and location to a post_revisions table",
+      "An edit that changes nothing doesn't create a revision",
+      "Only people who can see the post can see its history; deleting the post deletes the history",
+      "Tests: revision created, the no-change case, and privacy",
+    ],
+    start: ["service/PostService.java (update)", "organisms/PostCard", "molecules/PostHeader", "entity/Post.java (editedAt)"] },
+
+  { id: "ENH-08", title: "Saved collections", level: "Medium", daysA: 2, daysB: 2,
+    story: "As a user who saves many posts, I want to sort them into named collections like “Recipes” and “Travel ideas”.",
+    mock: `
+      <div class="fb-panel"><div class="fb-cap">After clicking “Save post”</div>
+        <div class="fb-card fb-dialog"><b>Save to</b>
+          <div class="fb-list"><div class="fb-row"><span class="fb-radio on"></span> Saved items</div><div class="fb-row"><span class="fb-radio"></span> Recipes</div><div class="fb-row"><span class="fb-radio"></span> Travel ideas</div><div><a class="fb-link">+ New collection</a></div></div>
+          <div class="fb-row" style="justify-content:flex-end"><span class="fb-btn primary">Done</span></div></div></div>
+      <div class="fb-panel"><div class="fb-cap">Saved page</div>
+        <div class="fb-tiles">
+          <div class="fb-tile"><div class="cover" style="background:hsl(28 70% 60%)"></div><b>Recipes</b><div class="fb-muted">12 items</div></div>
+          <div class="fb-tile"><div class="cover" style="background:hsl(195 60% 55%)"></div><b>Travel ideas</b><div class="fb-muted">7 items</div></div>
+          <div class="fb-tile"><div class="cover" style="background:hsl(220 10% 75%)"></div><b>Saved items</b><div class="fb-muted">31 items</div></div>
+        </div></div>`,
+    api: ["GET/POST /api/saved/collections · PATCH/DELETE /api/saved/collections/{id}", "POST /api/posts/{id}/save { collectionId? }", "GET /api/saved/collections/{id}/posts?page=0"],
+    functional: [
+      "Saving a post opens a “Save to” picker: Saved items (the default), your collections, and “+ New collection”",
+      "The Saved page shows collections as tiles with a cover image, name and item count",
+      "Opening a tile lists its posts; each post has “Move to…” and “Unsave”",
+      "Collections can be renamed or deleted. Deleting one moves its posts back to Saved items instead of unsaving them",
+    ],
+    technical: [
+      "A saved_collections table and a nullable collection_id on saved_posts",
+      "The cover is the image of the most recently saved post that has one",
+      "Collections are private; another user's collection id returns 404",
+      "Tests: move posts, delete a collection, and access by another user",
+    ],
+    start: ["pages/SavedPage", "service/PostService.java (toggleSave, saved)", "entity/SavedPost.java", "repository/SavedPostRepository.java"] },
+
+  { id: "ENH-09", title: "Admin moderation queue for reports", level: "Hard", daysA: 3, daysB: 4,
+    story: "As a site admin, I want one place to review reported posts, comments and users and act on them.",
+    mock: `
+      <div class="fb-panel wide"><div class="fb-cap">/admin/reports (admins only)</div>
+        <div class="fb-card"><div class="fb-row" style="justify-content:space-between;flex-wrap:wrap"><b>Open reports (14)</b><div class="fb-row"><span class="fb-select">Type: All ▾</span><span class="fb-select">Reason: All ▾</span></div></div>
+          <table class="fb-table"><thead><tr><th>Reported item</th><th>Reason</th><th>Reports</th><th>Waiting</th><th></th></tr></thead>
+          <tbody>
+            <tr class="sel"><td>Post by Rahul Verma</td><td>Spam</td><td>6</td><td>2 days</td><td>▾</td></tr>
+            <tr><td colspan="5"><div class="fb-preview">“Earn ₹50,000 a day from home, click here…”</div>
+              <div class="fb-input fb-ph">Reason for your decision (required)</div>
+              <div class="fb-row" style="flex-wrap:wrap"><span class="fb-btn sm">Dismiss</span><span class="fb-btn sm danger">Remove post</span><span class="fb-btn sm">Warn user</span><span class="fb-select">Suspend: 7 days ▾</span></div></td></tr>
+            <tr><td>Comment by Sara Khan</td><td>Harassment</td><td>2</td><td>5 hrs</td><td>▸</td></tr>
+            <tr><td>User: Fake Profile 123</td><td>Fake account</td><td>9</td><td>1 day</td><td>▸</td></tr>
+          </tbody></table></div></div>`,
+    api: ["GET /api/admin/reports?status=OPEN&type=&reason= → Report[]", "POST /api/admin/reports/{id}/actions { action: DISMISS | REMOVE | WARN | SUSPEND, days?, reason }", "GET /api/admin/audit-log"],
+    functional: [
+      "An Admin link appears in the menu only for admins and opens /admin/reports",
+      "Open reports are listed oldest first, with filters by type and reason, and grouped when many people report the same item",
+      "Expanding a row shows the reported content in context, a required reason box, and the actions Dismiss, Remove, Warn and Suspend for 1, 7 or 30 days",
+      "A suspended user who tries to log in sees “Your account is suspended until 20 Oct 2026”",
+      "The person who reported it sees the outcome in their Support Inbox",
+    ],
+    technical: [
+      "A site-wide ADMIN role, separate from group admins; seed one admin user",
+      "Admin APIs return 403 for everyone else, enforced in SecurityConfig and not only in the UI",
+      "Removed content is hidden for everyone; suspension is checked at login and on every request",
+      "Every action is written to an audit_log table (who, what, when, why) that can't be edited through the API",
+      "Tests: role checks, each action, a suspended login, and audit entries",
+    ],
+    start: ["service/SafetyService.java", "entity/Report.java", "config/SecurityConfig.java", "pages/SettingsPage (Support Inbox)"] },
+];
+
+const INTERVIEW = [
+  { week: 1, theme: "Web basics and tools", ties: "Matches Part 1: running the stack with Docker, Git and the request path.",
+    q: [
+      "What happens, step by step, between typing a URL in the browser and seeing the page?",
+      "Explain GET, POST, PUT, PATCH and DELETE. Which are idempotent, and why does that matter?",
+      "What do status codes 200, 201, 204, 400, 401, 403, 404, 409 and 500 mean? Why does this app return 401 instead of 403 for a missing token?",
+      "What is REST? Name three things that make an API RESTful.",
+      "What is CORS? Why does the Docker setup in this project avoid CORS preflights?",
+      "Docker image vs container. What does docker-compose.yml do in this project?",
+      "Git: merge vs rebase. How do you resolve a merge conflict?",
+      "Process vs thread. What is a deadlock?",
+    ],
+    dsa: ["Two Sum", "Valid Anagram", "Reverse Words in a String", "Best Time to Buy and Sell Stock"] },
+  { week: 2, theme: "JavaScript, React and authentication", ties: "Matches Part 2: tracing sign up, log in and the React components.",
+    q: [
+      "var vs let vs const. What is hoisting?",
+      "What is a closure? Give an example where you would use one.",
+      "Explain the JavaScript event loop, the microtask queue and the task queue.",
+      "Promises vs async/await. How do you handle errors in each?",
+      "What is the virtual DOM? Why does React need a key on list items?",
+      "useState vs useRef. When does useEffect run, and what is the cleanup function for?",
+      "What is a custom hook? Explain useDebouncedValue from this codebase.",
+      "Props vs Context. Why is AuthProvider a context and not props?",
+      "TypeScript: interface vs type. What are generics?",
+      "Sessions vs JWT. What is inside a JWT? What is the risk of storing it in localStorage?",
+      "Hashing vs encryption. Why are passwords stored with BCrypt?",
+    ],
+    dsa: ["Group Anagrams", "Longest Substring Without Repeating Characters", "First Unique Character in a String", "Valid Palindrome"] },
+  { week: 3, theme: "Core Java and Spring Boot", ties: "Matches Part 3: your first change tasks in controllers and services.",
+    q: [
+      "The four pillars of OOP, each with an example from this codebase.",
+      "Abstract class vs interface. When would you choose each?",
+      "What is the equals/hashCode contract? Why does it matter for JPA entities?",
+      "Why is String immutable? When should you use StringBuilder?",
+      "ArrayList vs LinkedList. How does a HashMap work internally?",
+      "HashMap vs ConcurrentHashMap. What is thread safety?",
+      "Checked vs unchecked exceptions. Why is ApiException unchecked?",
+      "What is dependency injection? Why does this codebase use constructor injection (@RequiredArgsConstructor)?",
+      "@Component vs @Service vs @Repository vs @RestController.",
+      "What does Spring Boot auto-configuration do? How does a request pass through the security filter chain to JwtAuthenticationFilter?",
+      "What are Java records? Why are the DTOs here records?",
+      "Streams: map, filter, collect. Rewrite a for-loop from PostService as a stream.",
+    ],
+    dsa: ["Reverse Linked List", "Valid Parentheses", "Merge Two Sorted Lists", "Min Stack"] },
+  { week: 4, theme: "Databases and JPA", ties: "Matches the change tasks that add columns, queries and new endpoints.",
+    q: [
+      "Primary key vs foreign key. Explain 1NF, 2NF and 3NF.",
+      "INNER JOIN vs LEFT JOIN. Write SQL for the top 5 users by number of posts.",
+      "How does an index work? What does it cost? Why does users have a unique index on email?",
+      "What is ACID? What does @Transactional do, and what does readOnly = true change?",
+      "What is the N+1 query problem? Show two ways to fix it in JPA.",
+      "Lazy vs eager loading. What is a LazyInitializationException?",
+      "Offset pagination vs keyset (cursor) pagination. Which one suits an infinite feed?",
+      "SQL vs NoSQL. When would you pick each?",
+    ],
+    dsa: ["Maximum Depth of Binary Tree", "Binary Tree Level Order Traversal", "Validate Binary Search Tree", "Lowest Common Ancestor of a BST"] },
+  { week: 5, theme: "Testing, clean code and design patterns", ties: "Matches writing tests and refactoring for your change tasks.",
+    q: [
+      "Unit vs integration vs end-to-end tests. What is the test pyramid?",
+      "What is mocking? When should you not mock?",
+      "Explain SOLID. Which principle does the 949-line PostService break?",
+      "Name four design patterns used in this codebase (hint: Builder, Repository, DTO, Filter chain).",
+      "Polling vs long polling vs WebSockets vs SSE. Which does the chat use, and what would you change?",
+      "Where would you add a cache to make the news feed faster? How do you keep it correct?",
+      "How does a token-bucket rate limiter work? Where would you use one here?",
+    ],
+    dsa: ["Number of Islands", "Course Schedule (topological sort)", "Clone Graph", "Friend suggestions: friends-of-friends ranked by mutual friends (BFS to depth 2)"] },
+  { week: 6, theme: "System design and behavioural", ties: "Mock interview week. Use this codebase as your example in every answer.",
+    q: [
+      "Design a news feed. Fan-out on write vs fan-out on read.",
+      "Design a chat system like Messenger: delivery, read receipts and online status.",
+      "Design a URL shortener.",
+      "How would you scale this app to 10 million users? What breaks first?",
+      "Tell me about a bug you fixed. Use a change task and answer in STAR format (Situation, Task, Action, Result).",
+      "Tell me about a time you received critical feedback. Use a mentor review.",
+      "Tell me about something you learned quickly. Microsoft interviews value a growth mindset.",
+      "Why Microsoft? Which team or product interests you, and why?",
+    ],
+    dsa: ["Climbing Stairs", "Coin Change", "Search in Rotated Sorted Array", "LRU Cache"] },
+];
+
+const STATUSES =["Not started", "In progress", "Submitted", "Reviewed"];
+const LANE_CLASS = { ui: "c-ui", http: "c-http", java: "c-java", db: "c-db", key: "c-key", misc: "c-misc" };
+
+// ---------- state ----------
+const state = { onboarding: {}, flows: {}, interview: { checked: {}, notes: {} } };
+for (const f of FLOWS) state.flows[f.key] = { status: "Not started", answers: {}, mentor: "" };
+let db = null;
+let mode = "local";
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function codeify(s) { return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>"); }
+
+// ---------- render ----------
+const ICON = {
+  start: '<path d="M12 3c3 2 4.5 5 4.5 9l-2 3h-5l-2-3c0-4 1.5-7 4.5-9z"/><circle cx="12" cy="9.5" r="1.6"/><path d="M9.5 15l-2.5 3 1 2 2.5-2M14.5 15l2.5 3-1 2-2.5-2"/>',
+  flows: '<rect x="3" y="4" width="6" height="5" rx="1"/><rect x="15" y="4" width="6" height="5" rx="1"/><rect x="9" y="15" width="6" height="5" rx="1"/><path d="M9 6.5h6M18 9v3H12v3"/>',
+  assignments: '<rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18M11 12v2h2v-2"/>',
+  interview: '<path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+  doc: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  check: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/>',
+};
+const ico = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const GROUPS = [
+  { id: "start", name: "Start here", items: ["start", "example"] },
+  { id: "flows", name: "Flows", items: FLOWS.map(f => f.key) },
+  { id: "assignments", name: "Assignments", items: ["assignments"] },
+  { id: "interview", name: "Interview prep", items: ["interview"] },
+];
+const tabs = [
+  { id: "start", name: "Onboarding", icon: "check" },
+  { id: "example", name: "Worked example", icon: "doc" },
+  ...FLOWS.map((f, i) => ({ id: f.key, name: f.name, flow: true, num: i + 1 })),
+  { id: "assignments", name: "All 9 tickets", icon: "doc" },
+  { id: "interview", name: "Weeks 1–6", icon: "check" },
+];
+const groupOf = id => GROUPS.find(g => g.items.includes(id));
+const lastInGroup = {};
+const tabName = id => { const t = tabs.find(x => x.id === id); if (!t) return ""; const g = groupOf(id); return t.flow ? `Flow ${t.num}: ${t.name}` : g.items.length === 1 ? g.name : t.name; };
+let active = "start";
+try { const h = location.hash.slice(1); if (tabs.some(t => t.id === h)) active = h; else { const s = localStorage.getItem("wb-tab"); if (tabs.some(t => t.id === s)) active = s; } } catch (e) {}
+
+function pillFor(t) {
+  if (t.flow) { const st = state.flows[t.id].status; return `<span class="pill" data-st="${esc(st)}">${esc(st)}</span>`; }
+  if (t.id === "start") { const done = Object.values(state.onboarding).filter(Boolean).length; return `<span class="pill" data-st="${done === ONBOARDING.length ? "Reviewed" : done ? "In progress" : "Not started"}">${done}/${ONBOARDING.length}</span>`; }
+  if (t.id === "interview") { const total = INTERVIEW.reduce((n, w) => n + w.q.length, 0); const done = Object.values(state.interview.checked).filter(Boolean).length; return `<span class="pill" data-st="${done === total ? "Reviewed" : done ? "In progress" : "Not started"}">${done}/${total} ready</span>`; }
+  return "";
+}
+
+function arrowKeys(container, sel, onPick) {
+  container.querySelectorAll(sel).forEach((b, i, all) => b.addEventListener("keydown", e => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault(); const n = all[(i + (e.key === "ArrowRight" ? 1 : -1) + all.length) % all.length];
+    onPick(n.dataset.go); const again = container.querySelector(`[data-go="${n.dataset.go}"]`); if (again) again.focus();
+  }));
+}
+
+function renderTabs() {
+  const g = groupOf(active);
+  const main = document.getElementById("mainTabs");
+  main.innerHTML = GROUPS.map(x => `<button type="button" role="tab" class="mtab" data-go="${x.id}" aria-selected="${x === g}" tabindex="${x === g ? 0 : -1}">${ico(x.id)}${esc(x.name)}</button>`).join("");
+  main.querySelectorAll(".mtab").forEach(b => b.addEventListener("click", () => openGroup(b.dataset.go)));
+  arrowKeys(main, ".mtab", openGroup);
+  const sub = document.getElementById("subTabs");
+  sub.innerHTML = g.items.map(id => { const t = tabs.find(x => x.id === id);
+    return `<button type="button" role="tab" class="stab" data-go="${id}" aria-selected="${id === active}" tabindex="${id === active ? 0 : -1}">${t.flow ? `<span class="n">${t.num}</span>` : ico(t.icon)}${esc(t.name)} ${pillFor(t)}</button>`; }).join("");
+  sub.querySelectorAll(".stab").forEach(b => b.addEventListener("click", () => select(b.dataset.go, true)));
+  arrowKeys(sub, ".stab", id => select(id, true));
+  const cur = sub.querySelector('[aria-selected="true"]'); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+function openGroup(gid) { const g = GROUPS.find(x => x.id === gid); select(lastInGroup[gid] || g.items[0], true); }
+
+function select(id, push) {
+  if (!tabs.some(t => t.id === id)) id = "start";
+  const changed = active !== id;
+  active = id; lastInGroup[groupOf(id).id] = id;
+  try { localStorage.setItem("wb-tab", id); } catch (e) {}
+  if (push) { try { history.pushState(null, "", "#" + id); } catch (e) {} }
+  renderTabs();
+  document.querySelectorAll("section.panel").forEach(p => p.hidden = p.id !== "panel-" + id);
+  if (changed) window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[href^='#']");
+  if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+  e.preventDefault(); select(a.getAttribute("href").slice(1), true);
+});
+window.addEventListener("popstate", () => { const h = location.hash.slice(1); if (h) select(h); });
+
+function toolkitHtml() {
+  return `
+  <div class="card">
+    <h2>How to trace a flow</h2>
+    <p class="muted">Use these four tools on every flow. Don't guess: prove each answer with one of them.</p>
+  </div>
+  <div class="toolkit">
+    <div class="card"><h3 class="c-http">1. Browser DevTools</h3><p>Press F12 → Network → Fetch/XHR, then do the action. Click the request to see its URL, payload and response.</p></div>
+    <div class="card"><h3 class="c-java">2. Search the URL</h3><p>Search the backend for the path, for example <code>"/save"</code> inside <code>controller/</code>. Then Ctrl+click from the controller into the service and repository.</p></div>
+    <div class="card"><h3 class="c-db">3. Watch the SQL</h3><p>Set <code>show-sql: true</code> in <code>backend/src/main/resources/application.yml</code>, run <code>start.bat rebuild</code>, then:</p><pre>start.bat logs backend</pre><p class="muted">Turn it off again when you are done. Don't commit it.</p></div>
+    <div class="card"><h3 class="c-db">4. Check the rows</h3><p>Look at the table before and after the action:</p><pre>docker exec -it fbclone-db psql -U fbclone -d facebookclone
+\\dt
+SELECT * FROM saved_posts ORDER BY id DESC LIMIT 5;</pre></div>
+  </div>`;
+}
+
+function renderPanels() {
+  const root = document.getElementById("panels");
+  let html = "";
+
+  // Onboarding
+  html += `<section class="panel" id="panel-start" hidden>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Junior developer onboarding</div>
+        <h1>Follow the click through the code</h1>
+        <p class="lead">You will learn this codebase by tracing five real actions from the button you click to the database row that changes. For each one, write down the React components, the API call, the Java classes and methods, and the tables involved.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>${FLOWS.length}</b><span>flows to trace</span></div>
+        <div class="stat"><b>${ASSIGNMENTS.length}</b><span>feature tickets</span></div>
+        <div class="stat"><b>${INTERVIEW.length}</b><span>weeks of prep</span></div>
+      </div>
+      <div class="route" aria-label="The request path you will trace">
+        <div class="stop c-ui"><span class="k">1 · UI</span><span class="v">React</span><span class="s">pages, organisms, hooks</span></div>
+        <div class="stop c-http"><span class="k">2 · HTTP</span><span class="v">/api call</span><span class="s">method, body, status</span></div>
+        <div class="stop c-java"><span class="k">3 · Java</span><span class="v">Spring Boot</span><span class="s">controller → service → repo</span></div>
+        <div class="stop c-db"><span class="k">4 · DB</span><span class="v">PostgreSQL</span><span class="s">rows read and written</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Part 1 · Onboarding (week 1)</h2>
+      <p>Before you trace anything, get the app running and learn where things live. Don't change any code this week. Tick each step when it's done; your mentor sees your progress.</p>
+    </div>
+    <ol class="steps" id="steps">${ONBOARDING.map((s, i) => `
+      <li data-i="${i}"><input type="checkbox" id="ob-${i}" aria-labelledby="ob-t-${i}"><div><div class="t" id="ob-t-${i}">${esc(s.t)}</div><div class="d">${esc(s.d)}</div></div></li>`).join("")}
+    </ol>
+    ${toolkitHtml()}
+    <div class="card">
+      <h2>What comes next</h2>
+      <p><strong>Part 2 (week 2):</strong> trace the five flows under the Flows tab and write your findings there. Mark each one “Submitted” when it's ready, and your mentor reviews it.</p>
+      <p><strong>Part 3 (weeks 3–5):</strong> once a flow is “Reviewed”, its change task unlocks. You make a small, real change to that same flow, so you already know the code you're touching.</p>
+      <p><strong>Part 4 (weeks 6–12):</strong> nine new features under the Assignments tab. Each has a mockup and is split into a functional part (UI) and a technical part (database, API and tests).</p>
+      <p><strong>Interview prep (weeks 1–6):</strong> each week has theory questions and coding problems that match what you're learning. Find it under the Interview prep tab.</p>
+    </div>
+  </section>`;
+
+  // Worked example
+  html += `<section class="panel example" id="panel-example" hidden>
+    <div class="card"><div class="eyebrow">Worked example</div><h2>${esc(EXAMPLE.name)}</h2><p>${esc(EXAMPLE.scenario)}</p><p class="muted">This is the level of detail expected for each flow: real class and method names, the real URL, and the real tables.</p></div>
+    <div class="card"><div class="lanes">${EXAMPLE.rows.map(([lane, tag, text]) => {
+      const f = FIELDS.find(x => x.lane === lane && x.tag === tag) || FIELDS.find(x => x.lane === lane);
+      return `<div class="lane ${LANE_CLASS[lane]}${f.wide ? " wide" : ""}"><div class="bar"></div><div class="body"><label><span class="tag">${tag}</span>${esc(f.label)}</label><div class="mono" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;color:var(--ink)">${esc(text)}</div></div></div>`;
+    }).join("")}</div></div>
+  </section>`;
+
+  // Flows
+  FLOWS.forEach((f, idx) => {
+    html += `<section class="panel" id="panel-${f.key}" hidden>
+      <div class="card">
+        <div class="eyebrow">Flow ${idx + 1} of ${FLOWS.length}</div>
+        <h2>${esc(f.name)}</h2>
+        <div class="statusbar">
+          <p class="muted">Write your answers below. They save automatically.</p>
+          <label class="muted" style="display:flex;gap:8px;align-items:center">Status
+            <select id="st-${f.key}">${STATUSES.map(s => `<option>${s}</option>`).join("")}</select></label>
+        </div>
+      </div>
+      <div class="scenario">
+        <div class="card"><h3>Do this in the app</h3><p>${codeify(f.scenario)}</p></div>
+        <div class="card"><h3>Where to start</h3><p>${codeify(f.clue)}</p></div>
+        <div class="card"><h3>Also answer</h3><p>${codeify(f.extra)}</p></div>
+      </div>
+      <div class="card"><div class="lanes">${FIELDS.map(fl => `
+        <div class="lane ${LANE_CLASS[fl.lane]}${fl.wide ? " wide" : ""}"><div class="bar"></div><div class="body">
+          <label for="a-${f.key}-${fl.id}"><span class="tag">${fl.tag}</span>${esc(fl.label)}</label>
+          <div class="hint">${esc(fl.hint)}</div>
+          <textarea id="a-${f.key}-${fl.id}" data-flow="${f.key}" data-field="${fl.id}" spellcheck="false"${fl.wide ? ' style="min-height:72px"' : ""}></textarea>
+        </div></div>`).join("")}</div></div>
+      <div class="bottom-pair">
+        <div class="card mentor">
+          <label for="m-${f.key}"><h3>Mentor feedback</h3></label>
+          <p class="muted">Mentor: write corrections here, then set the status to “Reviewed” to unlock the change task.</p>
+          <textarea id="m-${f.key}" data-flow="${f.key}" data-mentor="1"></textarea>
+        </div>
+        <div class="card change" id="ch-${f.key}">
+          <div class="head"><h3>Part 3 · Change task: ${esc(f.change.title)}</h3><span class="lock" id="lock-${f.key}"></span></div>
+          <p>${esc(f.change.desc)}</p>
+          <ul>${f.change.touches.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+          <p class="muted">Before coding, write a short plan as a GitHub issue. Work on a branch named <code>feature/${f.key}-${f.change.title.toLowerCase().replace(/[^a-z]+/g, "-").replace(/-$/, "")}</code> and open one pull request.</p>
+        </div>
+      </div>
+    </section>`;
+  });
+
+  // Assignments
+  html += `<section class="panel" id="panel-assignments" hidden>
+    <div class="card">
+      <div class="eyebrow">Part 4 · weeks 6–12</div>
+      <h2>Assignment work: 9 feature requests</h2>
+      <p>Each request is a new feature the app doesn't have yet. Every ticket shows how the screen should look, and is split into two parts that can be worked on separately:</p>
+      <ul class="crit">
+        <li><strong>Part A · Functional:</strong> the UI and behaviour the user sees, built in React.</li>
+        <li><strong>Part B · Technical:</strong> the database, Java API, business rules and tests.</li>
+      </ul>
+      <ol class="flowline">
+        <li>Read the ticket, study the mockup, and open the files under <strong>Start here</strong>.</li>
+        <li>Agree on the API contract with your mentor. Once it's fixed, Part A and Part B no longer depend on each other.</li>
+        <li>Do each part on its own branch and pull request, such as <code>feature/ENH-03-polls-ui</code> and <code>feature/ENH-03-polls-api</code>. Part A can use mocked API responses until Part B is merged.</li>
+        <li><code>mvn test</code>, <code>npm run lint</code> and <code>npm run typecheck</code> must pass on both pull requests.</li>
+        <li>When both parts are merged, demo the whole feature end to end and add screenshots that match the mockup.</li>
+      </ol>
+    </div>
+    <div class="tk-bar"><span class="muted">Click a ticket to see its mockup, API contract and both parts.</span>
+      <div class="tk-actions"><button type="button" class="tk-btn" id="tkExpand">Expand all</button><button type="button" class="tk-btn" id="tkCollapse">Collapse all</button></div></div>
+    <div class="tk-grid">
+    ${ASSIGNMENTS.map(a => `
+    <details class="card ticket" id="t-${a.id}">
+      <summary>
+      <div class="t-head">
+        <div class="t-id mono">${a.id}</div>
+        <div class="t-meta"><span class="lvl" data-l="${a.level}">${a.level}</span><span class="chip">~${a.daysA + a.daysB} days</span></div>
+      </div>
+      <h3>${esc(a.title)}</h3>
+      <p class="story">${esc(a.story)}</p>
+      <span class="t-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="t-body">
+      <figure class="mock-wrap"><figcaption class="eyebrow">How it should look</figcaption><div class="mock">${a.mock}</div></figure>
+      <div class="contract"><div class="eyebrow">API contract · agree on this first</div><ul class="files">${a.api.map(s => `<li><code>${esc(s)}</code></li>`).join("")}</ul></div>
+      <div class="split">
+        <section class="part pa"><div class="part-head"><span class="part-tag">Part A</span><b>Functional</b><span class="muted">UI and behaviour · ~${a.daysA} days</span></div>
+          <ul class="crit">${a.functional.map(c => `<li>${esc(c)}</li>`).join("")}</ul></section>
+        <section class="part pb"><div class="part-head"><span class="part-tag">Part B</span><b>Technical</b><span class="muted">Database, API and tests · ~${a.daysB} days</span></div>
+          <ul class="crit">${a.technical.map(c => `<li>${esc(c)}</li>`).join("")}</ul></section>
+      </div>
+      <div><div class="eyebrow">Start here</div><ul class="files">${a.start.map(s => `<li><code>${esc(s)}</code></li>`).join("")}</ul></div>
+      </div>
+    </details>`).join("")}
+    </div>
+  </section>`;
+
+  // Interview prep
+  html += `<section class="panel" id="panel-interview" hidden>
+    <div class="card">
+      <div class="eyebrow">Alongside the plan · weeks 1–6</div>
+      <h2>Interview preparation</h2>
+      <p>Each week's questions match what you're working on that week, so answer them with examples from this codebase. Tick a question only when you can explain it out loud in about 2 minutes without notes. Your mentor will ask some of them at the weekly check-in.</p>
+      <p class="muted">Microsoft's software engineering interviews usually include coding rounds on data structures and algorithms, plus behavioural questions. Experienced roles add system design. Solve the coding problems on LeetCode without an IDE and say the time and space complexity aloud.</p>
+    </div>
+    <div class="iv-grid">
+    ${INTERVIEW.map(w => `
+    <div class="card iv">
+      <div class="iv-head"><div><div class="eyebrow">Week ${w.week}</div><h3>${esc(w.theme)}</h3></div><span class="pill" id="ivc-${w.week}"></span></div>
+      <p class="muted">${esc(w.ties)}</p>
+      <ol class="qs">${w.q.map((q, i) => `<li><input type="checkbox" id="iv-${w.week}-${i}" data-iv="${w.week}-${i}"><label for="iv-${w.week}-${i}">${esc(q)}</label></li>`).join("")}</ol>
+      <div class="dsa"><span class="tag c-key mono">CODING PRACTICE</span> ${w.dsa.map(d => `<span class="chip">${esc(d)}</span>`).join("")}</div>
+      <label for="ivn-${w.week}" class="muted" style="font-size:13.5px">Notes from the mock interview</label>
+      <textarea id="ivn-${w.week}" data-ivnote="${w.week}" style="min-height:70px"></textarea>
+    </div>`).join("")}
+    </div>
+  </section>`;
+
+  root.innerHTML = html;
+  tabs.forEach((t, i) => {
+    const prev = tabs[i - 1], next = tabs[i + 1];
+    const pg = document.createElement("nav"); pg.className = "pager"; pg.setAttribute("aria-label", "Next and previous section");
+    pg.innerHTML = (prev ? `<a class="btn" href="#${prev.id}">← ${esc(tabName(prev.id))}</a>` : `<span></span>`) +
+      (next ? `<a class="btn" href="#${next.id}">${esc(tabName(next.id))} →</a>` : `<span></span>`);
+    document.getElementById("panel-" + t.id).appendChild(pg);
+  });
+
+  // wire inputs
+  document.querySelectorAll("#steps input").forEach(cb => cb.addEventListener("change", () => {
+    state.onboarding[cb.closest("li").dataset.i] = cb.checked;
+    syncOnboarding(); renderTabs(); queueSave("onboarding");
+  }));
+  document.querySelectorAll("textarea[data-flow]").forEach(ta => ta.addEventListener("input", () => {
+    const fs = state.flows[ta.dataset.flow];
+    if (ta.dataset.mentor) fs.mentor = ta.value; else fs.answers[ta.dataset.field] = ta.value;
+    if (!ta.dataset.mentor && fs.status === "Not started") { fs.status = "In progress"; syncFlow(ta.dataset.flow); renderTabs(); }
+    queueSave(ta.dataset.flow);
+  }));
+  document.getElementById("tkExpand").addEventListener("click", () => document.querySelectorAll("details.ticket").forEach(d => d.open = true));
+  document.getElementById("tkCollapse").addEventListener("click", () => document.querySelectorAll("details.ticket").forEach(d => d.open = false));
+  document.querySelectorAll("input[data-iv]").forEach(cb => cb.addEventListener("change", () => {
+    state.interview.checked[cb.dataset.iv] = cb.checked; syncInterview(); renderTabs(); queueSave("interview");
+  }));
+  document.querySelectorAll("textarea[data-ivnote]").forEach(ta => ta.addEventListener("input", () => {
+    state.interview.notes[ta.dataset.ivnote] = ta.value; queueSave("interview");
+  }));
+  FLOWS.forEach(f => document.getElementById("st-" + f.key).addEventListener("change", e => {
+    state.flows[f.key].status = e.target.value; syncFlow(f.key); renderTabs(); queueSave(f.key);
+  }));
+}
+
+function syncOnboarding() {
+  document.querySelectorAll("#steps li").forEach(li => {
+    const on = !!state.onboarding[li.dataset.i];
+    li.querySelector("input").checked = on; li.classList.toggle("done", on);
+  });
+}
+function syncInterview() {
+  document.querySelectorAll("input[data-iv]").forEach(cb => cb.checked = !!state.interview.checked[cb.dataset.iv]);
+  document.querySelectorAll("textarea[data-ivnote]").forEach(ta => {
+    if (ta === document.activeElement) return;
+    const v = state.interview.notes[ta.dataset.ivnote] || ""; if (ta.value !== v) ta.value = v;
+  });
+  INTERVIEW.forEach(w => {
+    const done = w.q.filter((_, i) => state.interview.checked[w.week + "-" + i]).length;
+    const el = document.getElementById("ivc-" + w.week);
+    el.textContent = done + "/" + w.q.length + " ready";
+    el.dataset.st = done === w.q.length ? "Reviewed" : done ? "In progress" : "Not started";
+  });
+}
+function syncFlow(key) {
+  const fs = state.flows[key];
+  document.getElementById("st-" + key).value = fs.status;
+  document.querySelectorAll(`textarea[data-flow="${key}"]`).forEach(ta => {
+    if (ta === document.activeElement) return;
+    const v = ta.dataset.mentor ? fs.mentor : (fs.answers[ta.dataset.field] || "");
+    if (ta.value !== v) ta.value = v;
+  });
+  const lock = document.getElementById("lock-" + key);
+  const open = fs.status === "Reviewed";
+  lock.textContent = open ? "Unlocked: start this task" : "Unlocks when the flow is reviewed";
+  lock.classList.toggle("open", open);
+}
+
+// ---------- persistence ----------
+const timers = {};
+function setSave(s, text) { document.querySelectorAll(".save-state").forEach(el => { el.dataset.s = s; el.querySelector("span:last-child").textContent = text; }); }
+function docPayload(key) {
+  return key === "onboarding" ? { items: state.onboarding } : key === "interview" ? state.interview : state.flows[key];
+}
+function docPath(key) {
+  return key === "onboarding" ? "workbook/onboarding" : key === "interview" ? "workbook/interview" : "flows/" + key;
+}
+
+function queueSave(key) {
+  clearTimeout(timers[key]);
+  setSave("saving", "Saving…");
+  timers[key] = setTimeout(() => save(key), 700);
+}
+async function save(key) {
+  const body = JSON.parse(JSON.stringify(docPayload(key)));
+  body.updatedAt = new Date().toISOString();
+  if (mode === "db") {
+    try { await db.doc(docPath(key)).set(body); setSave("saved", "All changes saved. Your mentor sees them live."); }
+    catch (e) {
+      if (e && e.code === "unavailable") { setTimeout(() => save(key), 1500 + Math.random() * 1000); return; }
+      setSave("idle", "Couldn't save just now. Keep this tab open and try typing again.");
+    }
+  } else {
+    try { localStorage.setItem("wb-" + key, JSON.stringify(body)); setSave("saved", "Saved in this browser only. Your mentor can't see these answers."); }
+    catch (e) { setSave("idle", "This browser blocks saving. Copy your answers somewhere safe."); }
+  }
+}
+
+function applyRemote(key, data) {
+  if (!data) return;
+  if (key === "onboarding") { state.onboarding = Object.assign({}, data.items || {}); syncOnboarding(); }
+  else if (key === "interview") {
+    const a = document.activeElement;
+    const notes = Object.assign({}, data.notes || {});
+    if (a && a.dataset && a.dataset.ivnote) notes[a.dataset.ivnote] = state.interview.notes[a.dataset.ivnote];
+    state.interview = { checked: Object.assign({}, data.checked || {}), notes };
+    syncInterview();
+  }
+  else {
+    const fs = state.flows[key];
+    const active = document.activeElement;
+    const editing = active && active.dataset && active.dataset.flow === key ? active : null;
+    fs.status = STATUSES.includes(data.status) ? data.status : fs.status;
+    const answers = Object.assign({}, data.answers || {});
+    if (editing && !editing.dataset.mentor) answers[editing.dataset.field] = fs.answers[editing.dataset.field];
+    fs.answers = answers;
+    fs.mentor = editing && editing.dataset.mentor ? fs.mentor : (data.mentor || "");
+    syncFlow(key);
+  }
+  renderTabs();
+}
+
+function loadLocal() {
+  for (const key of ["onboarding", "interview", ...FLOWS.map(f => f.key)]) {
+    try { const raw = localStorage.getItem("wb-" + key); if (raw) applyRemote(key, JSON.parse(raw)); } catch (e) {}
+  }
+}
+
+async function connect() {
+  let ns = null;
+  try { ns = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { ns = null; }
+  if (!ns) { mode = "local"; loadLocal(); setSave("idle", "Saving in this browser only. Your mentor can't see these answers."); return; }
+  db = ns; mode = "db";
+  setSave("saved", "Connected. Answers save automatically and your mentor sees them live.");
+  const sub = (key) => db.doc(docPath(key)).onSnapshot(
+    snap => { if (snap.exists && !snap.metadata.hasPendingWrites) applyRemote(key, snap.data()); },
+    () => setSave("idle", "Lost the connection. Reload the page to keep saving.")
+  );
+  sub("onboarding"); sub("interview"); FLOWS.forEach(f => sub(f.key));
+}
+
+renderPanels();
+FLOWS.forEach(f => syncFlow(f.key));
+syncOnboarding();
+syncInterview();
+select(active);
+connect();
+</script>
+</body>
+</html>
